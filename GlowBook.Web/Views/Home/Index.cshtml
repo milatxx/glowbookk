@@ -1,8 +1,33 @@
 ﻿@{
-    ViewData["Title"] = "Home Page";
+    ViewData["Title"] = "Home";
 }
 
-<div class="text-center">
-    <h1 class="display-4">Welcome</h1>
-    <p>Learn about <a href="https://learn.microsoft.com/aspnet/core">building Web apps with ASP.NET Core</a>.</p>
+<div class="row mt-3">
+    <div class="col-md-8">
+        <div class="gb-card">
+            <div class="gb-card-title">Welkom bij GlowBook</div>
+            <p class="text-muted">
+                GlowBook helpt je om afspraken, klanten en medewerkers van je schoonheidssalon overzichtelijk te beheren.
+            </p>
+            <ul>
+                <li>Bekijk en filter afspraken per dag of medewerker.</li>
+                <li>Beheer klantggevens en contactinformatie.</li>
+                <li>Gebruik de mobiele app om vanop je smartphone te werken.</li>
+            </ul>
+        </div>
+    </div>
+
+    <div class="col-md-4">
+        <div class="gb-card">
+            <div class="gb-card-title">Snelle acties</div>
+            <div class="d-grid gap-2">
+                <a asp-controller="Appointments" asp-action="Index" class="btn-gb">
+                    Naar afspraken
+                </a>
+                <a asp-controller="Customers" asp-action="Index" class="btn btn-outline-secondary">
+                    Naar klanten
+                </a>
+            </div>
+        </div>
+    </div>
 </div>

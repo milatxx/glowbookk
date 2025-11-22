@@ -1,31 +1,129 @@
-html {
-  font-size: 14px;
+/* GlowBook theme */
+
+:root {
+    --gb-baby-pink: #ffc1cc; 
+    --gb-pink-dark: #ffb0bd; 
+    --gb-white: #ffffff;
+    --gb-white70: rgba(255,255,255,0.7);
+    --gb-button: #ec628b;
 }
 
-@media (min-width: 768px) {
-  html {
-    font-size: 16px;
-  }
-}
-
-.btn:focus, .btn:active:focus, .btn-link.nav-link:focus, .form-control:focus, .form-check-input:focus {
-  box-shadow: 0 0 0 0.1rem white, 0 0 0 0.25rem #258cfb;
-}
-
-html {
-  position: relative;
-  min-height: 100%;
-}
+/* Body & main layout */
 
 body {
-  margin-bottom: 60px;
+    background-color: var(--gb-baby-pink);
+    font-family: "Segoe UI", system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+    font-size: 14px;
+    color: #000;
 }
 
-.form-floating > .form-control-plaintext::placeholder, .form-floating > .form-control::placeholder {
-  color: var(--bs-secondary-color);
-  text-align: end;
+main.container {
+    min-height: 70vh;
+    padding-top: 1.5rem;
+    padding-bottom: 1.5rem;
 }
 
-.form-floating > .form-control-plaintext:focus::placeholder, .form-floating > .form-control:focus::placeholder {
-  text-align: start;
+/* Header-balk */
+
+.gb-header {
+    background-color: var(--gb-pink-dark);
+    color: var(--gb-white);
+    padding: 16px;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.15);
+}
+
+.gb-header-title {
+    font-size: 24px;
+    font-weight: 700;
+    color: var(--gb-white);
+}
+
+/* Navigatieknopen in header */
+
+.gb-nav-btn {
+    background-color: var(--gb-button);
+    color: var(--gb-white) !important;
+    border-radius: 10px;
+    border: none;
+    padding: 6px 14px;
+    margin-left: 8px;
+    font-weight: 500;
+    text-decoration: none;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+}
+
+    .gb-nav-btn:hover,
+    .gb-nav-btn:focus {
+        opacity: 0.9;
+        text-decoration: none;
+        color: var(--gb-white);
+    }
+
+/* Algemene knoppen */
+
+.btn-gb {
+    background-color: var(--gb-button);
+    color: var(--gb-white);
+    border-radius: 10px;
+    border: none;
+    padding: 8px 16px;
+    font-weight: 500;
+}
+
+    .btn-gb:hover,
+    .btn-gb:focus {
+        opacity: 0.9;
+        color: var(--gb-white);
+    }
+
+/* Cards */
+
+.gb-card {
+    background-color: var(--gb-white);
+    border-radius: 16px;
+    padding: 16px;
+    margin-bottom: 12px;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.2);
+}
+
+.gb-card-title {
+    font-size: 18px;
+    font-weight: 600;
+    color: var(--gb-button);
+    margin-bottom: 8px;
+}
+
+/* Tabellen */
+
+.gb-table-wrapper {
+    margin-top: 8px;
+}
+
+.gb-table {
+    background-color: var(--gb-white);
+    color: #000;
+    border-radius: 16px;
+    overflow: hidden;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+}
+
+    .gb-table thead {
+        background-color: var(--gb-white70);
+        font-weight: 600;
+    }
+
+    .gb-table tbody tr:hover {
+        background-color: #f7f7f7;
+    }
+
+/* Kleine tweaks */
+
+.form-label {
+    font-weight: 500;
+}
+
+.validation-summary-errors ul {
+    margin-bottom: 0;
 }
