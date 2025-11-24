@@ -1,0 +1,56 @@
+﻿@model IEnumerable<GlowBook.Model.Entities.Customer>
+
+@{
+    ViewData["Title"] = "Klanten";
+}
+
+<div class="gb-card mt-3">
+    <div class="d-flex justify-content-between align-items-center mb-2">
+        <div class="gb-card-title">Klanten</div>
+        @if (User.IsInRole("Admin"))
+        {
+            <a asp-action="Create" class="btn-gb">Nieuwe klant</a>
+        }
+    </div>
+
+    <p class="text-muted mb-2">
+        Overzicht van alle actieve klanten.
+    </p>
+
+    <div class="gb-table-wrapper">
+        <table class="table table-hover align-middle mb-0 gb-table">
+            <thead>
+                <tr>
+                    <th>Naam</th>
+                    <th>Telefoon</th>
+                    <th>E-mail</th>
+                    <th style="width: 220px;">Acties</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var c in Model)
+                {
+                    <tr>
+                        <td>@c.Name</td>
+                        <td>@c.Phone</td>
+                        <td>@c.Email</td>
+                        <td>
+                            <a asp-action="Details" asp-route-id="@c.Id" class="btn btn-sm btn-outline-secondary me-1">
+                                Details
+                            </a>
+                            @if (User.IsInRole("Admin"))
+                            {
+                                <a asp-action="Edit" asp-route-id="@c.Id" class="btn btn-sm btn-outline-primary me-1">
+                                    Bewerken
+                                </a>
+                                <a asp-action="Delete" asp-route-id="@c.Id" class="btn btn-sm btn-outline-danger">
+                                    Verwijderen
+                                </a>
+                            }
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </div>
+</div>

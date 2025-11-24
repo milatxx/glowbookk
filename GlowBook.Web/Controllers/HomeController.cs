@@ -1,7 +1,7 @@
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
-namespace GlowBook.Web.Controllers.Api;
+namespace GlowBook.Web.Controllers;
 
 [Authorize]
 public class HomeController : Controller

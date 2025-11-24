@@ -1,0 +1,35 @@
+﻿@model GlowBook.Model.Entities.Customer 
+
+@{
+    ViewData["Title"] = "Klantdetails";
+}
+
+<div class="gb-card mt-3">
+    <div class="gb-card-title">Klantdetails</div>
+
+    <dl class="row mb-0">
+        <dt class="col-sm-2">Naam</dt>
+        <dd class="col-sm-10">@Model.Name</dd>
+
+        <dt class="col-sm-2">Telefoon</dt>
+        <dd class="col-sm-10">@Model.Phone</dd>
+
+        <dt class="col-sm-2">E-mail</dt>
+        <dd class="col-sm-10">@Model.Email</dd>
+
+        <dt class="col-sm-2">Notities</dt>
+        <dd class="col-sm-10">@Model.Notes</dd>
+    </dl>
+
+    <div class="mt-3 d-flex justify-content-between">
+        <a asp-action="Index" class="btn btn-outline-secondary">
+            Terug naar lijst
+        </a>
+        @if (User.IsInRole("Admin"))
+        {
+            <a asp-action="Edit" asp-route-id="@Model.Id" class="btn-gb">
+                Bewerken
+            </a>
+        }
+    </div>
+</div>
