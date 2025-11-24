@@ -1,0 +1,37 @@
+﻿@model GlowBook.Model.Entities.Appointment
+
+@{
+    ViewData["Title"] = "Afspraak verwijderen";
+}
+
+<div class="gb-card mt-3">
+    <div class="gb-card-title text-danger">Afspraak verwijderen</div>
+
+    <div class="alert alert-warning">
+        Ben je zeker dat je deze afspraak definitief wil verwijderen?
+    </div>
+
+    <dl class="row">
+        <dt class="col-sm-3">Datum</dt>
+        <dd class="col-sm-9">@Model.Start.ToString("dd/MM/yyyy HH:mm") - @Model.End.ToString("HH:mm")</dd>
+
+        <dt class="col-sm-3">Klant</dt>
+        <dd class="col-sm-9">@Model.Customer?.Name</dd>
+
+        <dt class="col-sm-3">Medewerker</dt>
+        <dd class="col-sm-9">@Model.Staff?.Name</dd>
+
+        <dt class="col-sm-3">Status</dt>
+        <dd class="col-sm-9">@Model.Status</dd>
+    </dl>
+
+    <form asp-action="Delete" method="post">
+        <input type="hidden" asp-for="Id" />
+        <a asp-action="Index" class="btn btn-outline-secondary">
+            Annuleren
+        </a>
+        <button type="submit" class="btn btn-danger ms-2">
+            Verwijderen
+        </button>
+    </form>
+</div>

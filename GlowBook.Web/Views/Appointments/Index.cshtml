@@ -1,0 +1,77 @@
+﻿@using GlowBook.Web.Models
+@model PagedResult<GlowBook.Model.Entities.Appointment>
+
+@{
+    ViewData["Title"] = "Kalender";
+    var filter = (AppointmentFilterViewModel)ViewBag.Filter;
+}
+
+<div class="gb-card mt-3">
+    <div class="gb-card-title">Kalender</div>
+
+    <form id="filterForm" class="row g-2 mb-3">
+        <input type="hidden" name="Page" value="@filter.Page" />
+        <div class="col-md-3">
+            <label asp-for="@filter.From" class="form-label">Van</label>
+            <input asp-for="@filter.From" class="form-control" />
+        </div>
+        <div class="col-md-3">
+            <label asp-for="@filter.To" class="form-label">Tot</label>
+            <input asp-for="@filter.To" class="form-control" />
+        </div>
+        <div class="col-md-3">
+            <label asp-for="@filter.StaffId" class="form-label">Medewerker</label>
+            <select asp-for="@filter.StaffId" class="form-select"
+                    asp-items="@(new SelectList((IEnumerable<GlowBook.Model.Entities.Staff>)ViewBag.StaffList, "Id", "Name"))">
+                <option value="">Alle medewerkers</option>
+            </select>
+        </div>
+        <div class="col-md-2">
+            <label class="form-label">Sortering</label>
+            <select name="SortOrder" class="form-select">
+                <option value="">Datum oplopend</option>
+                <option value="date_desc" selected="@(filter.SortOrder == "date_desc")">Datum aflopend</option>
+                <option value="customer" selected="@(filter.SortOrder == "customer")">Klant</option>
+            </select>
+        </div>
+        <div class="col-md-1 d-flex align-items-end">
+            <button type="submit" class="btn-gb w-100">Filter</button>
+        </div>
+    </form>
+
+    <div class="mb-3">
+        @if (User.HasClaim("permission", "manage_appointments"))
+        {
+            <a asp-action="Create" class="btn-gb">
+                Nieuwe afspraak
+            </a>
+        }
+    </div>
+
+    <div id="appointmentsContainer">
+        <partial name="_AppointmentListPartial" model="Model" />
+    </div>
+
+</div>
+
+@section Scripts {
+    <script>
+        $("#filterForm").on("submit", function (e) {
+            e.preventDefault();
+            $.ajax({
+                url: "@Url.Action("Index")",
+                type: "GET",
+                data: $(this).serialize(),
+                headers: { "X-Requested-With": "XMLHttpRequest" },
+                success: function (html) {
+                    $("#appointmentsContainer").html(html);
+                }
+            });
+        });
+
+        function goToPage(page) {
+            $("#filterForm input[name='Page']").val(page);
+            $("#filterForm").submit();
+        }
+    </script>
+}

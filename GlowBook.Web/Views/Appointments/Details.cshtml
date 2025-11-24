@@ -1,0 +1,38 @@
+﻿@model GlowBook.Model.Entities.Appointment
+
+@{
+    ViewData["Title"] = "Afspraakdetails";
+}
+
+<div class="gb-card mt-3">
+    <div class="gb-card-title">Afspraakdetails</div>
+
+    <dl class="row mb-0">
+        <dt class="col-sm-3">Datum</dt>
+        <dd class="col-sm-9">@Model.Start.ToString("f")</dd>
+
+        <dt class="col-sm-3">Einde</dt>
+        <dd class="col-sm-9">@Model.End.ToString("t")</dd>
+
+        <dt class="col-sm-3">Klant</dt>
+        <dd class="col-sm-9">@Model.Customer?.Name</dd>
+
+        <dt class="col-sm-3">Medewerker</dt>
+        <dd class="col-sm-9">@Model.Staff?.Name</dd>
+
+        <dt class="col-sm-3">Status</dt>
+        <dd class="col-sm-9">@Model.Status</dd>
+    </dl>
+
+    <div class="mt-3 d-flex justify-content-between">
+        <a asp-action="Index" class="btn btn-outline-secondary">
+            Terug naar lijst
+        </a>
+        @if (User.HasClaim("permission", "manage_appointments"))
+        {
+            <a asp-action="Edit" asp-route-id="@Model.Id" class="btn-gb">
+                Bewerken
+            </a>
+        }
+    </div>
+</div>
