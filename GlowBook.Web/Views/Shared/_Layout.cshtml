@@ -25,14 +25,19 @@
                     <a asp-controller="Home" asp-action="Index" class="gb-nav-btn">Home</a>
                     <a asp-controller="Appointments" asp-action="Index" class="gb-nav-btn">Kalender</a>
                     <a asp-controller="Customers" asp-action="Index" class="gb-nav-btn">Klanten</a>
+                    <a asp-controller="Services" asp-action="Index" class="gb-nav-btn">Diensten</a>
 
                     @if (User.Identity?.IsAuthenticated ?? false)
                     {
-                        <a href="#" class="gb-nav-btn"
-                           onclick="event.preventDefault(); document.getElementById('logoutForm').submit();">
-                            Uitloggen
-                        </a>
-                        <form id="logoutForm" asp-controller="Account" asp-action="Logout" method="post" class="d-none"></form>
+                        <form id="logoutForm"
+                              asp-controller="Account"
+                              asp-action="Logout"
+                              method="post"
+                              class="d-inline">
+                            <button type="submit" class="gb-nav-btn border-0">
+                                Uitloggen
+                            </button>
+                        </form>
                     }
                     else
                     {
@@ -40,6 +45,7 @@
                             Aanmelden
                         </a>
                     }
+
                 </div>
             </div>
         </div>
@@ -55,6 +61,7 @@
 
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
     <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
+
     @RenderSection("Scripts", required: false)
 </body>
 </html>

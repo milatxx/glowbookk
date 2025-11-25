@@ -1,0 +1,58 @@
+﻿@model IEnumerable<GlowBook.Model.Entities.Service>
+
+@{
+    ViewData["Title"] = "Diensten";
+}
+
+<div class="gb-card mt-3">
+    <div class="d-flex justify-content-between align-items-center mb-2">
+        <div class="gb-card-title">Diensten / behandelingen</div>
+        @if (User.IsInRole("Admin"))
+        {
+            <a asp-action="Create" class="btn-gb">Nieuwe dienst</a>
+        }
+    </div>
+
+    <p class="text-muted mb-2">
+        Overzicht van alle behandelingen met duur, prijs en categorie.
+    </p>
+
+    <div class="gb-table-wrapper">
+        <table class="table table-hover align-middle mb-0 gb-table">
+            <thead>
+                <tr>
+                    <th>Categorie</th>
+                    <th>Naam</th>
+                    <th>Duur (min)</th>
+                    <th>Prijs (€)</th>
+                    <th style="width: 220px;">Acties</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var s in Model)
+                {
+                    <tr>
+                        <td>@s.Category</td>
+                        <td>@s.Name</td>
+                        <td>@s.DurationMinutes</td>
+                        <td>@s.Price.ToString("0.00")</td>
+                        <td>
+                            <a asp-action="Details" asp-route-id="@s.Id" class="btn btn-sm btn-outline-secondary me-1">
+                                Details
+                            </a>
+                            @if (User.IsInRole("Admin"))
+                            {
+                                <a asp-action="Edit" asp-route-id="@s.Id" class="btn btn-sm btn-outline-primary me-1">
+                                    Bewerken
+                                </a>
+                                <a asp-action="Delete" asp-route-id="@s.Id" class="btn btn-sm btn-outline-danger">
+                                    Verwijderen
+                                </a>
+                            }
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </div>
+</div>

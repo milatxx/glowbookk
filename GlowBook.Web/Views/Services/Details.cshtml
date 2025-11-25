@@ -1,0 +1,47 @@
+﻿@model GlowBook.Model.Entities.Service
+
+@{
+    ViewData["Title"] = "Dienstdetails";
+}
+
+<div class="gb-card mt-3">
+    <div class="gb-card-title">Dienstdetails</div>
+
+    <dl class="row mb-0">
+        <dt class="col-sm-3">Categorie</dt>
+        <dd class="col-sm-9">@Model.Category</dd>
+
+        <dt class="col-sm-3">Naam</dt>
+        <dd class="col-sm-9">@Model.Name</dd>
+
+        <dt class="col-sm-3">Duur (min)</dt>
+        <dd class="col-sm-9">@Model.DurationMinutes</dd>
+
+        <dt class="col-sm-3">Prijs (€)</dt>
+        <dd class="col-sm-9">@Model.Price.ToString("0.00")</dd>
+
+        <dt class="col-sm-3">Omschrijving</dt>
+        <dd class="col-sm-9">
+            @if (string.IsNullOrWhiteSpace(Model.Description))
+            {
+                <span class="text-muted">Geen omschrijving opgegeven.</span>
+            }
+            else
+            {
+                @Model.Description
+            }
+        </dd>
+    </dl>
+
+    <div class="mt-3 d-flex justify-content-between">
+        <a asp-action="Index" class="btn btn-outline-secondary">
+            Terug naar lijst
+        </a>
+        @if (User.IsInRole("Admin"))
+        {
+            <a asp-action="Edit" asp-route-id="@Model.Id" class="btn-gb">
+                Bewerken
+            </a>
+        }
+    </div>
+</div>

@@ -1,0 +1,37 @@
+﻿@model GlowBook.Model.Entities.Service
+
+@{
+    ViewData["Title"] = "Dienst verwijderen";
+}
+
+<div class="gb-card mt-3">
+    <div class="gb-card-title text-danger">Dienst verwijderen</div>
+
+    <div class="alert alert-warning">
+        Ben je zeker dat je deze dienst definitief wil verwijderen?
+    </div>
+
+    <dl class="row">
+        <dt class="col-sm-3">Categorie</dt>
+        <dd class="col-sm-9">@Model.Category</dd>
+
+        <dt class="col-sm-3">Naam</dt>
+        <dd class="col-sm-9">@Model.Name</dd>
+
+        <dt class="col-sm-3">Duur (min)</dt>
+        <dd class="col-sm-9">@Model.DurationMinutes</dd>
+
+        <dt class="col-sm-3">Prijs (€)</dt>
+        <dd class="col-sm-9">@Model.Price.ToString("0.00")</dd>
+    </dl>
+
+    <form asp-action="Delete" method="post">
+        <input type="hidden" asp-for="Id" />
+        <a asp-action="Index" class="btn btn-outline-secondary">
+            Annuleren
+        </a>
+        <button type="submit" class="btn btn-danger ms-2">
+            Verwijderen
+        </button>
+    </form>
+</div>
