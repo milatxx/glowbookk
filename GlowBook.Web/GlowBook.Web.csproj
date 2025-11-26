@@ -19,8 +19,4 @@
     <ProjectReference Include="..\GlowBook.Model\GlowBook.Model.csproj" />
   </ItemGroup>
 
-  <ItemGroup>
-    <Folder Include="Controllers\Api\" />
-  </ItemGroup>
-
 </Project>
