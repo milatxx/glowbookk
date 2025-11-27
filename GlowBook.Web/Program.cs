@@ -104,6 +104,24 @@ using (var scope = app.Services.CreateScope())
             await userMgr.AddClaimAsync(admin, new System.Security.Claims.Claim("permission", "view_reports"));
         }
     }
+
+    if (!ctx.Staff.Any())
+    {
+        ctx.Staff.AddRange(
+            new Staff
+            {
+                Name = "Tamara",
+                Email = "tamara@glowbook.local"
+            },
+            new Staff
+            {
+                Name = "Mila",
+                Email = "mila@glowbook.local"
+            }
+        );
+
+        await ctx.SaveChangesAsync();
+    }
 }
 
 // Pipeline

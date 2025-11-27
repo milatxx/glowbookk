@@ -1,8 +1,8 @@
 /* GlowBook theme */
 
 :root {
-    --gb-baby-pink: #ffc1cc; 
-    --gb-pink-dark: #ffb0bd; 
+    --gb-baby-pink: #ffc1cc;
+    --gb-pink-dark: #ffb0bd;
     --gb-white: #ffffff;
     --gb-white70: rgba(255,255,255,0.7);
     --gb-button: #ec628b;
@@ -78,6 +78,32 @@ main.container {
         color: var(--gb-white);
     }
 
+/* Bootstrap primary buttons */
+
+.btn-primary {
+    background-color: var(--gb-button);
+    border-color: var(--gb-button);
+    color: var(--gb-white);
+    border-radius: 10px;
+    padding: 8px 16px;
+    font-weight: 500;
+}
+
+    .btn-primary:hover,
+    .btn-primary:focus {
+        background-color: #d9557c; 
+        border-color: #d9557c;
+        color: var(--gb-white);
+    }
+
+/* Secundaire knoppen wat zachter */
+
+.btn-outline-secondary {
+    border-radius: 10px;
+    padding: 8px 16px;
+    border-width: 1px;
+}
+
 /* Cards */
 
 .gb-card {
@@ -109,12 +135,19 @@ main.container {
     box-shadow: 0 4px 12px rgba(0,0,0,0.15);
 }
 
-    .gb-table thead {
+    .gb-table thead,
+    .gb-table table thead {
         background-color: var(--gb-white70);
-        font-weight: 600;
     }
 
-    .gb-table tbody tr:hover {
+        .gb-table thead th,
+        .gb-table table thead th {
+            font-weight: 600;
+            border-bottom-width: 0;
+        }
+
+    .gb-table tbody tr:hover,
+    .gb-table table tbody tr:hover {
         background-color: #f7f7f7;
     }
 

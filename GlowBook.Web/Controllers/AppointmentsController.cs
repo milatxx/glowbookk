@@ -3,190 +3,104 @@ using GlowBook.Model.Entities;
 using GlowBook.Web.Models;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 
 namespace GlowBook.Web.Controllers;
 
-[Authorize]
+[Authorize(Policy = "CanManageAppointments")]
 public class AppointmentsController : Controller
 {
-    private readonly AppDbContext _ctx;
+    private readonly AppDbContext _context;
 
-    public AppointmentsController(AppDbContext ctx)
+    public AppointmentsController(AppDbContext context)
     {
-        _ctx = ctx;
+        _context = context;
     }
 
-    
-    private DateTime RoundToMinute(DateTime dt)
+    // LIST
+    public async Task<IActionResult> Index()
     {
-        return new DateTime(dt.Year, dt.Month, dt.Day, dt.Hour, dt.Minute, 0);
-    }
-
-    public async Task<IActionResult> Index(AppointmentFilterViewModel filter)
-    {
-        var query = _ctx.Appointments
+        var items = await _context.Appointments
             .Include(a => a.Customer)
             .Include(a => a.Staff)
-            .AsQueryable();
-
-        if (filter.From.HasValue)
-            query = query.Where(a => a.Start >= filter.From.Value);
-
-        if (filter.To.HasValue)
-            query = query.Where(a => a.Start <= filter.To.Value);
-
-        if (filter.StaffId.HasValue)
-            query = query.Where(a => a.StaffId == filter.StaffId.Value);
-
-        switch (filter.SortOrder)
-        {
-            case "date_desc":
-                query = query.OrderByDescending(a => a.Start);
-                break;
-            case "customer":
-                query = query.OrderBy(a => a.Customer.Name);
-                break;
-            default:
-                query = query.OrderBy(a => a.Start);
-                break;
-        }
-
-        var total = await query.CountAsync();
-        var items = await query
-            .Skip((filter.Page - 1) * filter.PageSize)
-            .Take(filter.PageSize)
+            .Include(a => a.AppointmentServices)
+                .ThenInclude(x => x.Service)
+            .OrderBy(a => a.Start)
             .ToListAsync();
 
-        var model = new PagedResult<Appointment>
-        {
-            Items = items,
-            Page = filter.Page,
-            PageSize = filter.PageSize,
-            TotalCount = total
-        };
-
-        ViewBag.Filter = filter;
-        ViewBag.StaffList = await _ctx.Staff.OrderBy(s => s.Name).ToListAsync();
-
-        if (Request.Headers["X-Requested-With"] == "XMLHttpRequest")
-            return PartialView("_AppointmentListPartial", model);
-
-        return View(model);
+        return View(items);
     }
 
-    [Authorize(Policy = "CanManageAppointments")]
+    // GET: Create
     public async Task<IActionResult> Create()
     {
-        await FillDropdownsAsync();
-
-        var now = RoundToMinute(DateTime.Now);
-
-        var model = new Appointment
+        var vm = new AppointmentEditViewModel
         {
-            Start = now,
-            End = now.AddMinutes(60),
+            Date = DateTime.Today,
+            StartTime = new TimeSpan(9, 0, 0),
+            DurationMinutes = 60,
             Status = "Ingepland"
         };
-        return View(model);
+
+        await LoadDropDowns(vm);
+
+        return View(vm);
     }
 
+    // POST: Create
     [HttpPost]
-    [Authorize(Policy = "CanManageAppointments")]
     [ValidateAntiForgeryToken]
-    public async Task<IActionResult> Create(Appointment model)
+    public async Task<IActionResult> Create(AppointmentEditViewModel vm)
     {
         if (!ModelState.IsValid)
         {
-            await FillDropdownsAsync();
-            return View(model);
+            await LoadDropDowns(vm);
+            return View(vm);
         }
 
-        _ctx.Appointments.Add(model);
-        await _ctx.SaveChangesAsync();
-        TempData["Message"] = "Afspraak aangemaakt.";
-        return RedirectToAction(nameof(Index));
-    }
+        var start = vm.Date.Date + vm.StartTime;
+        var end = start.AddMinutes(vm.DurationMinutes);
 
-    [Authorize(Policy = "CanManageAppointments")]
-    public async Task<IActionResult> Edit(int id)
-    {
-        var appt = await _ctx.Appointments
-            .Include(a => a.Customer)
-            .Include(a => a.Staff)
-            .FirstOrDefaultAsync(a => a.Id == id);
-
-        if (appt == null) return NotFound();
-
-        await FillDropdownsAsync();
-        return View(appt);
-    }
-
-    [HttpPost]
-    [Authorize(Policy = "CanManageAppointments")]
-    [ValidateAntiForgeryToken]
-    public async Task<IActionResult> Edit(Appointment model)
-    {
-        if (!ModelState.IsValid)
+        var appointment = new Appointment
         {
-            await FillDropdownsAsync();
-            return View(model);
-        }
+            CustomerId = vm.CustomerId,
+            StaffId = vm.StaffId,
+            Start = start,
+            End = end,
+            Status = string.IsNullOrWhiteSpace(vm.Status) ? "Ingepland" : vm.Status
+        };
 
-        var appt = await _ctx.Appointments.FirstOrDefaultAsync(a => a.Id == model.Id);
-        if (appt == null) return NotFound();
+        appointment.AppointmentServices.Add(new AppointmentService
+        {
+            ServiceId = vm.ServiceId,
+            Appointment = appointment
+        });
 
-        appt.CustomerId = model.CustomerId;
-        appt.StaffId = model.StaffId;
-        appt.Start = model.Start;
-        appt.End = model.End;
-        appt.Status = model.Status;
+        _context.Appointments.Add(appointment);
+        await _context.SaveChangesAsync();
 
-        await _ctx.SaveChangesAsync();
-        TempData["Message"] = "Afspraak gewijzigd.";
         return RedirectToAction(nameof(Index));
     }
 
-    [Authorize(Policy = "CanManageAppointments")]
-    public async Task<IActionResult> Delete(int id)
+    private async Task LoadDropDowns(AppointmentEditViewModel vm)
     {
-        var appt = await _ctx.Appointments
-            .Include(a => a.Customer)
-            .Include(a => a.Staff)
-            .FirstOrDefaultAsync(a => a.Id == id);
+        vm.Customers = new SelectList(
+            await _context.Customers
+                .OrderBy(c => c.Name)
+                .ToListAsync(),
+            "Id", "Name", vm.CustomerId);
 
-        if (appt == null) return NotFound();
-        return View(appt);
-    }
+        vm.Staff = new SelectList(
+            await _context.Staff
+                .OrderBy(s => s.Name)
+                .ToListAsync(),
+            "Id", "Name", vm.StaffId);
 
-    [HttpPost]
-    [Authorize(Policy = "CanManageAppointments")]
-    [ValidateAntiForgeryToken]
-    public async Task<IActionResult> Delete(Appointment model)
-    {
-        var appt = await _ctx.Appointments.FirstOrDefaultAsync(a => a.Id == model.Id);
-        if (appt == null) return NotFound();
-
-        _ctx.Appointments.Remove(appt);
-        await _ctx.SaveChangesAsync();
-        TempData["Message"] = "Afspraak verwijderd.";
-        return RedirectToAction(nameof(Index));
-    }
-
-    public async Task<IActionResult> Details(int id)
-    {
-        var appt = await _ctx.Appointments
-            .Include(a => a.Customer)
-            .Include(a => a.Staff)
-            .FirstOrDefaultAsync(a => a.Id == id);
-
-        if (appt == null) return NotFound();
-        return View(appt);
-    }
-
-    private async Task FillDropdownsAsync()
-    {
-        ViewBag.Customers = await _ctx.Customers.OrderBy(c => c.Name).ToListAsync();
-        ViewBag.Staff = await _ctx.Staff.OrderBy(s => s.Name).ToListAsync();
+        vm.Services = new SelectList(
+            await _context.Services
+                .OrderBy(s => s.Name)
+                .ToListAsync(),
+            "Id", "Name", vm.ServiceId);
     }
 }

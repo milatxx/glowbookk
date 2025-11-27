@@ -1,71 +1,77 @@
-﻿@model GlowBook.Model.Entities.Appointment
+﻿@model GlowBook.Web.Models.AppointmentEditViewModel
 
 @{
     ViewData["Title"] = "Nieuwe afspraak";
 }
 
-<div class="gb-card mt-3">
-    <div class="gb-card-title">Nieuwe afspraak</div>
+<div class="container mt-4">
+    <div class="gb-card">
+        <h2 class="gb-card-title">Nieuwe afspraak</h2>
+        <p class="mb-4 text-muted">Maak een nieuwe afspraak voor een klant.</p>
 
-    <form asp-action="Create" method="post">
-        <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+        <form asp-action="Create" method="post">
+            <div asp-validation-summary="ModelOnly" class="text-danger mb-3"></div>
 
-        <div class="mb-3">
-            <label asp-for="CustomerId" class="form-label"></label>
-            <select asp-for="CustomerId"
-                    asp-items="@(new SelectList((IEnumerable<GlowBook.Model.Entities.Customer>)ViewBag.Customers, "Id", "Name"))"
-                    class="form-select">
-                <option value="0">Selecteer een klant</option>
-            </select>
-            <span asp-validation-for="CustomerId" class="text-danger"></span>
-        </div>
-
-        <div class="mb-3">
-            <label asp-for="StaffId" class="form-label"></label>
-            <select asp-for="StaffId"
-                    asp-items="@(new SelectList((IEnumerable<GlowBook.Model.Entities.Staff>)ViewBag.Staff, "Id", "Name"))"
-                    class="form-select">
-                <option value="0">Selecteer een medewerker</option>
-            </select>
-            <span asp-validation-for="StaffId" class="text-danger"></span>
-        </div>
-
-        <div class="row">
-            <div class="col-md-6 mb-3">
-                <label asp-for="Start" class="form-label"></label>
-                <input asp-for="Start"
-                       class="form-control"
-                       type="datetime-local"
-                       step="60" />
-                <span asp-validation-for="Start" class="text-danger"></span>
+            <div class="mb-3">
+                <label asp-for="CustomerId" class="form-label"></label>
+                <select asp-for="CustomerId" asp-items="Model.Customers" class="form-select">
+                    <option value="">-- Kies een klant --</option>
+                </select>
+                <span asp-validation-for="CustomerId" class="text-danger"></span>
             </div>
-            <div class="col-md-6 mb-3">
-                <label asp-for="End" class="form-label"></label>
-                <input asp-for="End"
-                       class="form-control"
-                       type="datetime-local"
-                       step="60" />
-                <span asp-validation-for="End" class="text-danger"></span>
+
+            <div class="mb-3">
+                <label asp-for="StaffId" class="form-label"></label>
+                <select asp-for="StaffId" asp-items="Model.Staff" class="form-select">
+                    <option value="">-- Kies een medewerker --</option>
+                </select>
+                <span asp-validation-for="StaffId" class="text-danger"></span>
             </div>
-        </div>
 
-        <div class="mb-3">
-            <label asp-for="Status" class="form-label"></label>
-            <input asp-for="Status" class="form-control" />
-            <span asp-validation-for="Status" class="text-danger"></span>
-        </div>
+            <div class="mb-3">
+                <label asp-for="ServiceId" class="form-label"></label>
+                <select asp-for="ServiceId" asp-items="Model.Services" class="form-select">
+                    <option value="">-- Kies een dienst --</option>
+                </select>
+                <span asp-validation-for="ServiceId" class="text-danger"></span>
+            </div>
 
-        <div class="d-flex justify-content-between">
-            <a asp-action="Index" class="btn btn-outline-secondary">
-                Annuleren
-            </a>
-            <button type="submit" class="btn-gb">
-                Opslaan
-            </button>
-        </div>
-    </form>
+            <div class="row">
+                <div class="col-md-4 mb-3">
+                    <label asp-for="Date" class="form-label"></label>
+                    <input asp-for="Date" class="form-control" />
+                    <span asp-validation-for="Date" class="text-danger"></span>
+                </div>
+
+                <div class="col-md-4 mb-3">
+                    <label asp-for="StartTime" class="form-label"></label>
+                    <input asp-for="StartTime" class="form-control" />
+                    <span asp-validation-for="StartTime" class="text-danger"></span>
+                </div>
+
+                <div class="col-md-4 mb-3">
+                    <label asp-for="DurationMinutes" class="form-label"></label>
+                    <input asp-for="DurationMinutes" class="form-control" />
+                    <span asp-validation-for="DurationMinutes" class="text-danger"></span>
+                </div>
+            </div>
+
+            <div class="mb-4">
+                <label asp-for="Status" class="form-label"></label>
+                <input asp-for="Status" class="form-control" />
+                <span asp-validation-for="Status" class="text-danger"></span>
+            </div>
+
+            <div class="d-flex justify-content-between">
+                <a asp-action="Index" class="btn btn-outline-secondary">Annuleren</a>
+                <button type="submit" class="btn-gb">Opslaan</button>
+            </div>
+        </form>
+    </div>
 </div>
 
 @section Scripts {
-    <partial name="_ValidationScriptsPartial" />
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    }
 }

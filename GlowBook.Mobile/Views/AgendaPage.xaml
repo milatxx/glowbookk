@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage
+    x:Class="GlowBook.Mobile.Views.AgendaPage"
+    xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml">
+
+    <ContentPage.Content>
+        <RefreshView IsRefreshing="{Binding IsBusy}">
+            <CollectionView ItemsSource="{Binding Appointments}">
+                <CollectionView.ItemTemplate>
+                    <DataTemplate>
+                        <Frame Margin="10" Padding="10">
+                            <VerticalStackLayout>
+                                <Label Text="{Binding CustomerName}" FontAttributes="Bold" />
+                                <Label Text="{Binding Start}" />
+                                <Label Text="{Binding StaffName}" FontSize="12" />
+                                <Label Text="{Binding Status}" FontSize="12" />
+                            </VerticalStackLayout>
+                        </Frame>
+                    </DataTemplate>
+                </CollectionView.ItemTemplate>
+            </CollectionView>
+        </RefreshView>
+    </ContentPage.Content>
+</ContentPage>
