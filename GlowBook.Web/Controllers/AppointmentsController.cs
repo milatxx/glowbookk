@@ -18,18 +18,59 @@ public class AppointmentsController : Controller
         _context = context;
     }
 
-    // LIST
-    public async Task<IActionResult> Index()
+    // INDEX MET FILTERS
+    public async Task<IActionResult> Index(AppointmentFilterViewModel filter)
     {
-        var items = await _context.Appointments
+        // Defaultwaarden voor From/To als er nog niets ingevuld is
+        if (!filter.From.HasValue)
+            filter.From = DateTime.Today;
+
+        if (!filter.To.HasValue)
+            filter.To = DateTime.Today.AddDays(7);
+
+        // Basisquery
+        var query = _context.Appointments
             .Include(a => a.Customer)
             .Include(a => a.Staff)
             .Include(a => a.AppointmentServices)
                 .ThenInclude(x => x.Service)
+            .AsQueryable();
+
+        // Filters toepassen
+        if (filter.From.HasValue)
+        {
+            var fromDate = filter.From.Value.Date;
+            query = query.Where(a => a.Start >= fromDate);
+        }
+
+        if (filter.To.HasValue)
+        {
+            var toDateExclusive = filter.To.Value.Date.AddDays(1);
+            query = query.Where(a => a.Start < toDateExclusive);
+        }
+
+        if (filter.CustomerId.HasValue)
+        {
+            query = query.Where(a => a.CustomerId == filter.CustomerId.Value);
+        }
+
+        if (filter.StaffId.HasValue)
+        {
+            query = query.Where(a => a.StaffId == filter.StaffId.Value);
+        }
+
+        if (!string.IsNullOrWhiteSpace(filter.Status))
+        {
+            query = query.Where(a => a.Status == filter.Status);
+        }
+
+        filter.Items = await query
             .OrderBy(a => a.Start)
             .ToListAsync();
 
-        return View(items);
+        await LoadFilterListsAsync(filter);
+
+        return View(filter);
     }
 
     // GET: Create
@@ -83,6 +124,7 @@ public class AppointmentsController : Controller
         return RedirectToAction(nameof(Index));
     }
 
+    // Dropdowns voor Create/Edit
     private async Task LoadDropDowns(AppointmentEditViewModel vm)
     {
         vm.Customers = new SelectList(
@@ -102,5 +144,30 @@ public class AppointmentsController : Controller
                 .OrderBy(s => s.Name)
                 .ToListAsync(),
             "Id", "Name", vm.ServiceId);
+    }
+
+    // Dropdowns voor filterbalk
+    private async Task LoadFilterListsAsync(AppointmentFilterViewModel filter)
+    {
+        filter.Customers = new SelectList(
+            await _context.Customers
+                .OrderBy(c => c.Name)
+                .ToListAsync(),
+            "Id", "Name", filter.CustomerId);
+
+        filter.Staff = new SelectList(
+            await _context.Staff
+                .OrderBy(s => s.Name)
+                .ToListAsync(),
+            "Id", "Name", filter.StaffId);
+
+        var statusOptions = new List<string>
+        {
+            "Ingepland",
+            "Afgewerkt",
+            "Geannuleerd"
+        };
+
+        filter.Statuses = new SelectList(statusOptions, filter.Status);
     }
 }

@@ -1,5 +1,4 @@
-﻿@using GlowBook.Model.Entities
-@model IEnumerable<Appointment>
+﻿@model GlowBook.Web.Models.AppointmentFilterViewModel
 
 @{
     ViewData["Title"] = "Kalender";
@@ -18,10 +17,48 @@
             </a>
         </div>
 
-        @if (!Model.Any())
+        <form method="get" class="row g-3 mb-4">
+            <div class="col-lg-2 col-md-4">
+                <label asp-for="From" class="form-label"></label>
+                <input asp-for="From" class="form-control" />
+            </div>
+
+            <div class="col-lg-2 col-md-4">
+                <label asp-for="To" class="form-label"></label>
+                <input asp-for="To" class="form-control" />
+            </div>
+
+            <div class="col-lg-2 col-md-4">
+                <label asp-for="CustomerId" class="form-label"></label>
+                <select asp-for="CustomerId" asp-items="Model.Customers" class="form-select">
+                    <option value="">-- Alle klanten --</option>
+                </select>
+            </div>
+
+            <div class="col-lg-2 col-md-4">
+                <label asp-for="StaffId" class="form-label"></label>
+                <select asp-for="StaffId" asp-items="Model.Staff" class="form-select">
+                    <option value="">-- Alle medewerkers --</option>
+                </select>
+            </div>
+
+            <div class="col-lg-2 col-md-4">
+                <label asp-for="Status" class="form-label"></label>
+                <select asp-for="Status" asp-items="Model.Statuses" class="form-select">
+                    <option value="">-- Alle statussen --</option>
+                </select>
+            </div>
+
+            <div class="col-lg-2 col-md-4 d-flex align-items-end justify-content-end">
+                <button type="submit" class="btn-gb me-2">Filter</button>
+                <a asp-action="Index" class="btn btn-outline-secondary">Reset</a>
+            </div>
+        </form>
+
+        @if (!Model.Items.Any())
         {
             <div class="alert alert-info mb-0">
-                Er zijn nog geen afspraken.
+                Er zijn geen afspraken voor de huidige filter.
             </div>
         }
         else
@@ -41,7 +78,7 @@
                             </tr>
                         </thead>
                         <tbody>
-                            @foreach (var item in Model)
+                            @foreach (var item in Model.Items)
                             {
                                 var serviceName = item.AppointmentServices.FirstOrDefault()?.Service?.Name ?? "";
                                 <tr>
