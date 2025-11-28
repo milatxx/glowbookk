@@ -5,6 +5,7 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
+using GlowBook.Model.Helpers;
 
 namespace GlowBook.Web.Controllers;
 
@@ -19,16 +20,16 @@ public class AppointmentsController : Controller
     }
 
     // INDEX MET FILTERS
-    public async Task<IActionResult> Index(AppointmentFilterViewModel filter)
+    public async Task<IActionResult> Index(AppointmentFilterViewModel filter, int page = 1)
     {
-        // Defaultwaarden voor From/To als er nog niets ingevuld is
+        const int pageSize = 10;
+
         if (!filter.From.HasValue)
             filter.From = DateTime.Today;
 
         if (!filter.To.HasValue)
             filter.To = DateTime.Today.AddDays(7);
 
-        // Basisquery
         var query = _context.Appointments
             .Include(a => a.Customer)
             .Include(a => a.Staff)
@@ -36,7 +37,6 @@ public class AppointmentsController : Controller
                 .ThenInclude(x => x.Service)
             .AsQueryable();
 
-        // Filters toepassen
         if (filter.From.HasValue)
         {
             var fromDate = filter.From.Value.Date;
@@ -50,28 +50,36 @@ public class AppointmentsController : Controller
         }
 
         if (filter.CustomerId.HasValue)
-        {
             query = query.Where(a => a.CustomerId == filter.CustomerId.Value);
-        }
 
         if (filter.StaffId.HasValue)
-        {
             query = query.Where(a => a.StaffId == filter.StaffId.Value);
-        }
 
         if (!string.IsNullOrWhiteSpace(filter.Status))
-        {
             query = query.Where(a => a.Status == filter.Status);
-        }
 
-        filter.Items = await query
+        int totalItems = await query.CountAsync();
+
+        var appointments = await query
             .OrderBy(a => a.Start)
+            .Skip((page - 1) * pageSize)
+            .Take(pageSize)
             .ToListAsync();
 
-        await LoadFilterListsAsync(filter);
+        var model = new PagedResult<Appointment>
+        {
+            Items = appointments,
+            PageNumber = page,
+            PageSize = pageSize,
+            TotalItems = totalItems
+        };
 
-        return View(filter);
+        await LoadFilterListsAsync(filter);
+        ViewBag.Filter = filter;
+
+        return View(model);
     }
+
 
     // GET: Create
     public async Task<IActionResult> Create()
