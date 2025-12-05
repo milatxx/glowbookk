@@ -1,0 +1,31 @@
+﻿@model IEnumerable<GlowBook.Model.Entities.Appointment>
+
+<table class="table table-hover align-middle mb-0">
+    <thead>
+        <tr>
+            <th>Datum</th>
+            <th>Start</th>
+            <th>Einde</th>
+            <th>Klant</th>
+            <th>Medewerker</th>
+            <th>Dienst</th>
+            <th>Status</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model)
+        {
+            var serviceName = item.AppointmentServices.FirstOrDefault()?.Service?.Name ?? "";
+
+            <tr>
+                <td>@item.Start.ToString("dd/MM/yyyy")</td>
+                <td>@item.Start.ToString("HH:mm")</td>
+                <td>@item.End.ToString("HH:mm")</td>
+                <td>@item.Customer?.Name</td>
+                <td>@item.Staff?.Name</td>
+                <td>@serviceName</td>
+                <td>@item.Status</td>
+            </tr>
+        }
+    </tbody>
+</table>

@@ -80,6 +80,44 @@ public class AppointmentsController : Controller
         return View(model);
     }
 
+    public async Task<IActionResult> ListPartial(AppointmentFilterViewModel filter)
+    {
+        var query = _context.Appointments
+            .Include(a => a.Customer)
+            .Include(a => a.Staff)
+            .Include(a => a.AppointmentServices)
+                .ThenInclude(x => x.Service)
+            .AsQueryable();
+
+        if (filter.From.HasValue)
+        {
+            var fromDate = filter.From.Value.Date;
+            query = query.Where(a => a.Start >= fromDate);
+        }
+
+        if (filter.To.HasValue)
+        {
+            var toDateExclusive = filter.To.Value.Date.AddDays(1);
+            query = query.Where(a => a.Start < toDateExclusive);
+        }
+
+        if (filter.CustomerId.HasValue)
+            query = query.Where(a => a.CustomerId == filter.CustomerId.Value);
+
+        if (filter.StaffId.HasValue)
+            query = query.Where(a => a.StaffId == filter.StaffId.Value);
+
+        if (!string.IsNullOrWhiteSpace(filter.Status))
+            query = query.Where(a => a.Status == filter.Status);
+
+        var results = await query
+            .OrderBy(a => a.Start)
+            .ToListAsync();
+
+        return PartialView("_AppointmentsList", results);
+    }
+
+
 
     // GET: Create
     public async Task<IActionResult> Create()
