@@ -136,8 +136,8 @@ app.UseStaticFiles();
 
 app.UseRouting();
 
-app.UseRequestLocalization();
 app.UseMiddleware<CultureCookieMiddleware>();
+app.UseRequestLocalization();
 
 app.UseAuthentication();
 app.UseAuthorization();
