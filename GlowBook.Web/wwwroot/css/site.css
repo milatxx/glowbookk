@@ -160,3 +160,23 @@ main.container {
 .validation-summary-errors ul {
     margin-bottom: 0;
 }
+
+/* Pink styling for pagination */
+.pagination .page-link {
+    border-radius: 999px;
+    border: 1px solid #f8c3d8;
+    color: #e91e63; 
+    padding: 0.35rem 0.9rem;
+}
+
+    .pagination .page-link:hover {
+        background-color: #ffe4f0; 
+        color: #e91e63;
+    }
+
+.pagination .page-item.active .page-link {
+    background-color: #ff4b8b; 
+    border-color: #ff4b8b;
+    color: #fff; 
+}
+

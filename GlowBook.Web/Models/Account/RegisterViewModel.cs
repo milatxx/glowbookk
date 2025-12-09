@@ -13,11 +13,11 @@ public class RegisterViewModel
     public string DisplayName { get; set; } = string.Empty;
 
     [Required, DataType(DataType.Password)]
-    [Display(Name = "Paswoord")]
+    [Display(Name = "Wachtwoord")]
     public string Password { get; set; } = string.Empty;
 
     [Required, DataType(DataType.Password)]
     [Compare("Password", ErrorMessage = "Wachtwoorden komen niet overeen")]
-    [Display(Name = "Herhaal paswoord")]
+    [Display(Name = "Herhaal wachtwoord")]
     public string ConfirmPassword { get; set; } = string.Empty;
 }

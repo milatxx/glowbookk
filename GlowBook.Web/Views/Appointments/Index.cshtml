@@ -25,33 +25,33 @@
         <!-- FILTER FORM -->
         <form method="get" class="row g-3 mb-4" id="filterForm">
             <div class="col-lg-2 col-md-4">
-                <label asp-for="@filter.From" class="form-label"></label>
+                <label class="form-label">@SR["Calendar_Filter_From"]</label>
                 <input asp-for="@filter.From" name="From" class="form-control"
                        value="@filter.From?.ToString("yyyy-MM-dd")" type="date" />
             </div>
 
             <div class="col-lg-2 col-md-4">
-                <label asp-for="@filter.To" class="form-label"></label>
+                <label class="form-label">@SR["Calendar_Filter_To"]</label>
                 <input asp-for="@filter.To" name="To" class="form-control"
                        value="@filter.To?.ToString("yyyy-MM-dd")" type="date" />
             </div>
 
             <div class="col-lg-2 col-md-4">
-                <label asp-for="@filter.CustomerId" class="form-label"></label>
+                <label class="form-label">@SR["Calendar_Filter_Customer"]</label>
                 <select name="CustomerId" class="form-select" asp-items="filter.Customers">
                     <option value="">@SR["Calendar_AllCustomers"]</option>
                 </select>
             </div>
 
             <div class="col-lg-2 col-md-4">
-                <label asp-for="@filter.StaffId" class="form-label"></label>
+                <label class="form-label">@SR["Calendar_Filter_Staff"]</label>
                 <select name="StaffId" class="form-select" asp-items="filter.Staff">
                     <option value="">@SR["Calendar_AllStaff"]</option>
                 </select>
             </div>
 
             <div class="col-lg-2 col-md-4">
-                <label asp-for="@filter.Status" class="form-label"></label>
+                <label class="form-label">@SR["Calendar_Filter_Status"]</label>
                 <select name="Status" class="form-select" asp-items="filter.Statuses">
                     <option value="">@SR["Calendar_AllStatuses"]</option>
                 </select>

@@ -186,4 +186,25 @@
   <data name="Calendar_ColumnStatus" xml:space="preserve">
     <value>Status</value>
   </data>
+  <data name="Nav_Login" xml:space="preserve">
+    <value>Aanmelden</value>
+  </data>
+  <data name="Nav_Logout" xml:space="preserve">
+    <value>Uitloggen</value>
+  </data>
+  <data name="Calendar_Filter_From" xml:space="preserve">
+    <value>Vanaf</value>
+  </data>
+  <data name="Calendar_Filter_To" xml:space="preserve">
+    <value>Tot</value>
+  </data>
+  <data name="Calendar_Filter_Customer" xml:space="preserve">
+    <value>Klant</value>
+  </data>
+  <data name="Calendar_Filter_Staff" xml:space="preserve">
+    <value>Medewerker</value>
+  </data>
+  <data name="Calendar_Filter_Status" xml:space="preserve">
+    <value>Status</value>
+  </data>
 </root>

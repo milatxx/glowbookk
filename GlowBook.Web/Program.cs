@@ -4,6 +4,8 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Localization;
 using Microsoft.EntityFrameworkCore;
 using System.Globalization;
+using GlowBook.Web;
+
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -136,8 +138,8 @@ app.UseStaticFiles();
 
 app.UseRouting();
 
-app.UseMiddleware<CultureCookieMiddleware>();
 app.UseRequestLocalization();
+app.UseMiddleware<CultureCookieMiddleware>();
 
 app.UseAuthentication();
 app.UseAuthorization();

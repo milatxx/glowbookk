@@ -3,32 +3,41 @@
 @using Microsoft.Extensions.Localization
 @inject IStringLocalizer<GlowBook.Web.SharedResources> SR
 
-<table class="table table-hover align-middle mb-0">
-    <thead>
-        <tr>
-            <th>@SR["Calendar_ColumnDate"]</th>
-            <th>@SR["Calendar_ColumnStart"]</th>
-            <th>@SR["Calendar_ColumnEnd"]</th>
-            <th>@SR["Calendar_ColumnCustomer"]</th>
-            <th>@SR["Calendar_ColumnStaff"]</th>
-            <th>@SR["Calendar_ColumnService"]</th>
-            <th>@SR["Calendar_ColumnStatus"]</th>
-        </tr>
-    </thead>
-    <tbody>
-        @foreach (var item in Model)
-        {
-            var serviceName = item.AppointmentServices.FirstOrDefault()?.Service?.Name ?? "";
-
+@if (!Model.Any())
+{
+    <div class="alert alert-info mb-0">
+        @SR["Calendar_NoResults"]
+    </div>
+}
+else
+{
+    <table class="table table-hover align-middle mb-0">
+        <thead>
             <tr>
-                <td>@item.Start.ToString("dd/MM/yyyy")</td>
-                <td>@item.Start.ToString("HH:mm")</td>
-                <td>@item.End.ToString("HH:mm")</td>
-                <td>@item.Customer?.Name</td>
-                <td>@item.Staff?.Name</td>
-                <td>@serviceName</td>
-                <td>@item.Status</td>
+                <th>@SR["Calendar_ColumnDate"]</th>
+                <th>@SR["Calendar_ColumnStart"]</th>
+                <th>@SR["Calendar_ColumnEnd"]</th>
+                <th>@SR["Calendar_ColumnCustomer"]</th>
+                <th>@SR["Calendar_ColumnStaff"]</th>
+                <th>@SR["Calendar_ColumnService"]</th>
+                <th>@SR["Calendar_ColumnStatus"]</th>
             </tr>
-        }
-    </tbody>
-</table>
+        </thead>
+        <tbody>
+            @foreach (var item in Model)
+            {
+                var serviceName = item.AppointmentServices.FirstOrDefault()?.Service?.Name ?? "";
+
+                <tr>
+                    <td>@item.Start.ToString("dd/MM/yyyy")</td>
+                    <td>@item.Start.ToString("HH:mm")</td>
+                    <td>@item.End.ToString("HH:mm")</td>
+                    <td>@item.Customer?.Name</td>
+                    <td>@item.Staff?.Name</td>
+                    <td>@serviceName</td>
+                    <td>@item.Status</td>
+                </tr>
+            }
+        </tbody>
+    </table>
+}

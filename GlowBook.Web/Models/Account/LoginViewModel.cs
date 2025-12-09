@@ -9,7 +9,7 @@ public class LoginViewModel
     public string Email { get; set; } = string.Empty;
 
     [Required, DataType(DataType.Password)]
-    [Display(Name = "Paswoord")]
+    [Display(Name = "Wachtwoord")]
     public string Password { get; set; } = string.Empty;
 
     [Display(Name = "Onthoud mij")]
