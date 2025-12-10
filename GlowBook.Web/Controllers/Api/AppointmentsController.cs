@@ -8,7 +8,7 @@ namespace GlowBook.Web.Controllers.Api;
 
 [Route("api/[controller]")]
 [ApiController]
-[Authorize]
+[Authorize] 
 public class AppointmentsController : ControllerBase
 {
     private readonly AppDbContext _ctx;
@@ -18,7 +18,10 @@ public class AppointmentsController : ControllerBase
         _ctx = ctx;
     }
 
+    // GET: api/appointments
+    // Deze mag MAUI-app zonder login gebruiken
     [HttpGet]
+    [AllowAnonymous]
     public async Task<ActionResult<IEnumerable<Appointment>>> GetAll(DateTime? from = null, DateTime? to = null)
     {
         var query = _ctx.Appointments
@@ -26,14 +29,20 @@ public class AppointmentsController : ControllerBase
             .Include(a => a.Staff)
             .AsQueryable();
 
-        if (from.HasValue) query = query.Where(a => a.Start >= from.Value);
-        if (to.HasValue) query = query.Where(a => a.Start <= to.Value);
+        if (from.HasValue)
+            query = query.Where(a => a.Start >= from.Value);
+
+        if (to.HasValue)
+            query = query.Where(a => a.Start <= to.Value);
 
         var list = await query.ToListAsync();
         return Ok(list);
     }
 
+    // GET: api/appointments/5
+    // Ook anoniem, handig voor detail in MAUI
     [HttpGet("{id}")]
+    [AllowAnonymous]
     public async Task<ActionResult<Appointment>> Get(int id)
     {
         var appt = await _ctx.Appointments
@@ -41,10 +50,13 @@ public class AppointmentsController : ControllerBase
             .Include(a => a.Staff)
             .FirstOrDefaultAsync(a => a.Id == id);
 
-        if (appt == null) return NotFound();
+        if (appt == null)
+            return NotFound();
+
         return appt;
     }
 
+    // POST: api/appointments
     [HttpPost]
     [Authorize(Policy = "CanManageAppointments")]
     public async Task<ActionResult<Appointment>> Post(Appointment appt)
@@ -54,22 +66,28 @@ public class AppointmentsController : ControllerBase
         return CreatedAtAction(nameof(Get), new { id = appt.Id }, appt);
     }
 
+    // PUT: api/appointments/5
     [HttpPut("{id}")]
     [Authorize(Policy = "CanManageAppointments")]
     public async Task<IActionResult> Put(int id, Appointment appt)
     {
-        if (id != appt.Id) return BadRequest();
+        if (id != appt.Id)
+            return BadRequest();
+
         _ctx.Entry(appt).State = EntityState.Modified;
         await _ctx.SaveChangesAsync();
         return NoContent();
     }
 
+    // DELETE: api/appointments/5
     [HttpDelete("{id}")]
     [Authorize(Policy = "CanManageAppointments")]
     public async Task<IActionResult> DeleteApi(int id)
     {
         var appt = await _ctx.Appointments.FirstOrDefaultAsync(a => a.Id == id);
-        if (appt == null) return NotFound();
+        if (appt == null)
+            return NotFound();
+
         _ctx.Appointments.Remove(appt);
         await _ctx.SaveChangesAsync();
         return NoContent();
