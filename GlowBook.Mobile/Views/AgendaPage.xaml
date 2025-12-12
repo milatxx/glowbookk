@@ -2,7 +2,8 @@
 <ContentPage
     x:Class="GlowBook.Mobile.Views.AgendaPage"
     xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
-    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml">
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+     BackgroundColor="{StaticResource GbBabyPink}">
 
     <ContentPage.Content>
         <Grid Padding="24">

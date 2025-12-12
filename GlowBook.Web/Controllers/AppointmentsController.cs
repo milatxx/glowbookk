@@ -10,14 +10,9 @@ using GlowBook.Model.Helpers;
 namespace GlowBook.Web.Controllers;
 
 [Authorize(Policy = "CanManageAppointments")]
-public class AppointmentsController : Controller
+public class AppointmentsController(AppDbContext context) : Controller
 {
-    private readonly AppDbContext _context;
-
-    public AppointmentsController(AppDbContext context)
-    {
-        _context = context;
-    }
+    private readonly AppDbContext _context = context;
 
     // INDEX MET FILTERS
     public async Task<IActionResult> Index(AppointmentFilterViewModel filter, int page = 1)
@@ -60,11 +55,21 @@ public class AppointmentsController : Controller
 
         int totalItems = await query.CountAsync();
 
+        // Sorteren op basis van de gekozen sorteeroptie
+        query = filter.SortOrder switch
+        {
+            "date_desc" => query.OrderByDescending(a => a.Start),
+            "customer" => query.OrderBy(a => a.Customer.Name),
+            "staff" => query.OrderBy(a => a.Staff.Name),
+            "status" => query.OrderBy(a => a.Status),
+            _ => query.OrderBy(a => a.Start) // default: datum oplopend
+        };
+
         var appointments = await query
-            .OrderBy(a => a.Start)
             .Skip((page - 1) * pageSize)
             .Take(pageSize)
             .ToListAsync();
+
 
         var model = new PagedResult<Appointment>
         {
@@ -110,11 +115,19 @@ public class AppointmentsController : Controller
         if (!string.IsNullOrWhiteSpace(filter.Status))
             query = query.Where(a => a.Status == filter.Status);
 
-        var results = await query
-            .OrderBy(a => a.Start)
-            .ToListAsync();
+        query = filter.SortOrder switch
+        {
+            "date_desc" => query.OrderByDescending(a => a.Start),
+            "customer" => query.OrderBy(a => a.Customer.Name),
+            "staff" => query.OrderBy(a => a.Staff.Name),
+            "status" => query.OrderBy(a => a.Status),
+            _ => query.OrderBy(a => a.Start)
+        };
+
+        var results = await query.ToListAsync();
 
         return PartialView("_AppointmentsList", results);
+
     }
 
 

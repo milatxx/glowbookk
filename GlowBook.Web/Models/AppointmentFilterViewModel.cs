@@ -23,11 +23,16 @@ namespace GlowBook.Web.Models
         [Display(Name = "Status")]
         public string? Status { get; set; }
 
+        [Display(Name = "Sorteren op")]
+        public string? SortOrder { get; set; }
+
+
         // Dropdowns
         public SelectList? Customers { get; set; }
         public SelectList? Staff { get; set; }
         public SelectList? Statuses { get; set; }
 
-        public List<Appointment> Items { get; set; } = new();
+        public List<Appointment> Items { get; set; } = [];
+
     }
 }

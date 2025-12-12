@@ -207,4 +207,13 @@
   <data name="Calendar_Filter_Status" xml:space="preserve">
     <value>Status</value>
   </data>
+  <data name="Error_Title" xml:space="preserve">
+    <value>Something went wrong</value>
+  </data>
+  <data name="Error_Message" xml:space="preserve">
+    <value>An unexpected error occurred. Please try again later.</value>
+  </data>
+  <data name="Error_BackToHome" xml:space="preserve">
+    <value>Back to home page</value>
+  </data>
 </root>

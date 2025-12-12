@@ -19,7 +19,6 @@ public class LocalDatabase
         if (_initialized) return;
 
         await _db.CreateTableAsync<LocalAppointment>();
-
         _initialized = true;
     }
 
@@ -38,11 +37,13 @@ public class LocalDatabase
 
         var mapped = items.Select(a => new LocalAppointment
         {
-            Id = a.Id,
+            ServerId = a.Id, 
+
             Start = a.Start,
             End = a.End,
             CustomerName = a.Customer?.Name ?? string.Empty,
             StaffName = a.Staff?.Name ?? string.Empty,
+            ServiceName = a.AppointmentServices?.FirstOrDefault()?.Service?.Name ?? string.Empty,
             Status = a.Status ?? string.Empty
         }).ToList();
 

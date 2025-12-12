@@ -57,6 +57,61 @@
                 </select>
             </div>
 
+            <div class="col-lg-2 col-md-4">
+                <label class="form-label">Sorteren op</label>
+                <select name="SortOrder" class="form-select">
+                    @* Datum oplopend *@
+                    @if (string.IsNullOrEmpty(filter.SortOrder))
+                    {
+                        <option value="" selected>Datum (oudste eerst)</option>
+                    }
+                    else
+                    {
+                        <option value="">Datum (oudste eerst)</option>
+                    }
+
+                    @* Datum aflopend *@
+                    @if (filter.SortOrder == "date_desc")
+                    {
+                        <option value="date_desc" selected>Datum (nieuwste eerst)</option>
+                    }
+                    else
+                    {
+                        <option value="date_desc">Datum (nieuwste eerst)</option>
+                    }
+
+                    @* Klant *@
+                    @if (filter.SortOrder == "customer")
+                    {
+                        <option value="customer" selected>Klant</option>
+                    }
+                    else
+                    {
+                        <option value="customer">Klant</option>
+                    }
+
+                    @* Medewerker *@
+                    @if (filter.SortOrder == "staff")
+                    {
+                        <option value="staff" selected>Medewerker</option>
+                    }
+                    else
+                    {
+                        <option value="staff">Medewerker</option>
+                    }
+
+                    @* Status *@
+                    @if (filter.SortOrder == "status")
+                    {
+                        <option value="status" selected>Status</option>
+                    }
+                    else
+                    {
+                        <option value="status">Status</option>
+                    }
+                </select>
+            </div>
+
             <div class="col-lg-2 col-md-4 d-flex align-items-end justify-content-end">
                 <button type="submit" class="btn-gb me-2">@SR["Calendar_Filter"]</button>
                 <a asp-action="Index" class="btn btn-outline-secondary">@SR["Calendar_Reset"]</a>
