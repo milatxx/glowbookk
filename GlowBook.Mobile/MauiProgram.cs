@@ -28,10 +28,14 @@ public static class MauiProgram
         builder.Services.AddSingleton<SyncService>();
 
         // ViewModels
-        builder.Services.AddSingleton<AgendaViewModel>();
+        builder.Services.AddTransient<AgendaViewModel>();
+        builder.Services.AddTransient<CustomersViewModel>();
+        builder.Services.AddTransient<ServicesViewModel>();
 
         // Views
-        builder.Services.AddSingleton<AgendaPage>();
+        builder.Services.AddTransient<AgendaPage>();
+        builder.Services.AddTransient<CustomersPage>();
+        builder.Services.AddTransient<ServicesPage>();
 
         return builder.Build();
     }

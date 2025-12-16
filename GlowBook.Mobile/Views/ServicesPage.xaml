@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <ContentPage
-    x:Class="GlowBook.Mobile.Views.AgendaPage"
+    x:Class="GlowBook.Mobile.Views.ServicesPage"
     xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
     xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
     BackgroundColor="{StaticResource GbBabyPink}">
@@ -14,7 +14,7 @@
                     <Label Text="{Binding Title}"
                            Style="{StaticResource GbCardTitle}" />
 
-                    <Label Text="Overzicht van afspraken."
+                    <Label Text="Overzicht van diensten."
                            FontSize="14"
                            TextColor="Gray" />
 
@@ -26,9 +26,9 @@
 
                     <RefreshView IsRefreshing="{Binding IsBusy}"
                                  Command="{Binding LoadAsync}">
-                        <CollectionView ItemsSource="{Binding Appointments}">
+                        <CollectionView ItemsSource="{Binding Services}">
                             <CollectionView.EmptyView>
-                                <Label Text="Geen afspraken gevonden."
+                                <Label Text="Geen diensten gevonden."
                                        HorizontalOptions="Center"
                                        VerticalOptions="Center"
                                        TextColor="Gray" />
@@ -38,16 +38,22 @@
                                 <DataTemplate>
                                     <Border Style="{StaticResource GbItemCard}">
                                         <VerticalStackLayout Spacing="2">
-                                            <Label Text="{Binding CustomerName}"
+                                            <Label Text="{Binding Name}"
                                                    FontAttributes="Bold" />
-                                            <Label Text="{Binding Start}"
+                                            <Label Text="{Binding Category}"
                                                    FontSize="13" />
-                                            <Label Text="{Binding StaffName}"
-                                                   FontSize="12"
-                                                   TextColor="Gray" />
-                                            <Label Text="{Binding Status}"
-                                                   FontSize="12"
-                                                   TextColor="Gray" />
+                                            <Label FontSize="12"
+                                                   TextColor="Gray">
+                                                <Label.FormattedText>
+                                                    <FormattedString>
+                                                        <Span Text="Duur: " />
+                                                        <Span Text="{Binding DurationMinutes}" />
+                                                        <Span Text=" min   " />
+                                                        <Span Text="Prijs: " />
+                                                        <Span Text="{Binding Price}" />
+                                                    </FormattedString>
+                                                </Label.FormattedText>
+                                            </Label>
                                         </VerticalStackLayout>
                                     </Border>
                                 </DataTemplate>

@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8" ?>
+<?xml version="1.0" encoding="UTF-8" ?>
 <Shell
     x:Class="GlowBook.Mobile.AppShell"
     xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
@@ -6,7 +6,22 @@
     xmlns:views="clr-namespace:GlowBook.Mobile.Views">
 
     <TabBar>
-        <ShellContent Title="Agenda"
-                      ContentTemplate="{DataTemplate views:AgendaPage}" />
+
+        <ShellContent
+            Title="Agenda"
+            ContentTemplate="{DataTemplate views:AgendaPage}"
+            Route="agenda" />
+
+        <ShellContent
+            Title="Customers"
+            ContentTemplate="{DataTemplate views:CustomersPage}"
+            Route="customers" />
+
+        <ShellContent
+            Title="Services"
+            ContentTemplate="{DataTemplate views:ServicesPage}"
+            Route="services" />
+
     </TabBar>
+
 </Shell>

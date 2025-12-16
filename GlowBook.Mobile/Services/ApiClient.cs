@@ -24,4 +24,17 @@ public class ApiClient
 
         return await _http.GetFromJsonAsync<List<Appointment>>(url) ?? new();
     }
+
+    public async Task<List<Customer>> GetCustomersAsync()
+    {
+        // GET https://localhost:7129/api/customers
+        return await _http.GetFromJsonAsync<List<Customer>>("customers") ?? new();
+    }
+
+    public async Task<List<Service>> GetServicesAsync()
+    {
+        // GET https://localhost:7129/api/services
+        return await _http.GetFromJsonAsync<List<Service>>("services") ?? new();
+    }
+
 }
