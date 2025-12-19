@@ -216,4 +216,7 @@
   <data name="Error_BackToHome" xml:space="preserve">
     <value>Back to home page</value>
   </data>
+  <data name="Lang_FR" xml:space="preserve">
+    <value>FR</value>
+  </data>
 </root>

@@ -1,0 +1,59 @@
+﻿@model List<GlowBook.Web.Models.Admin.UserListItemViewModel>
+
+@{
+    ViewData["Title"] = "Gebruikersbeheer";
+}
+
+<div class="gb-card mt-3">
+    <div class="d-flex justify-content-between align-items-center mb-2">
+        <div class="gb-card-title">Gebruikersbeheer</div>
+    </div>
+
+    <p class="text-muted mb-2">
+        Beheer rollen en toegang van gebruikers.
+    </p>
+
+    <div class="gb-table-wrapper">
+        <table class="table table-hover align-middle mb-0 gb-table">
+            <thead>
+                <tr>
+                    <th>Email</th>
+                    <th>Naam</th>
+                    <th>Bevestigd</th>
+                    <th>Actief</th>
+                    <th>Rollen</th>
+                    <th style="width: 220px;">Acties</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var u in Model)
+                {
+                    <tr>
+                        <td>@u.Email</td>
+                        <td>@u.DisplayName</td>
+                        <td>@(u.EmailConfirmed ? "Ja" : "Nee")</td>
+                        <td>@(u.IsActive ? "Ja" : "Nee")</td>
+                        <td>@string.Join(", ", u.Roles)</td>
+                        <td class="text-end">
+                            <a class="btn btn-sm btn-outline-primary me-1"
+                               asp-action="EditRoles"
+                               asp-route-id="@u.Id">
+                                Rollen
+                            </a>
+
+                            <form asp-action="ToggleActive"
+                                  asp-route-id="@u.Id"
+                                  method="post"
+                                  class="d-inline">
+                                @Html.AntiForgeryToken()
+                                <button class="btn btn-sm btn-outline-danger" type="submit">
+                                    @(u.IsActive ? "Blokkeer" : "Deblokkeer")
+                                </button>
+                            </form>
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </div>
+</div>

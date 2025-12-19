@@ -51,6 +51,15 @@
                         @SR["Nav_Services"]
                     </a>
 
+                    @if (User.IsInRole("Admin"))
+                    {
+                        <a asp-controller="Admin"
+                           asp-action="Users"
+                           class="gb-nav-btn">
+                            Admin
+                        </a>
+                    }
+
                     @if (User.Identity?.IsAuthenticated ?? false)
                     {
                         <form id="logoutForm"
@@ -78,8 +87,10 @@
             <!-- TAALWISSEL -->
             <div class="text-end mt-1 me-2">
                 <a href="?lang=nl">@SR["Lang_NL"]</a> |
-                <a href="?lang=en">@SR["Lang_EN"]</a>
+                <a href="?lang=en">@SR["Lang_EN"]</a> |
+                <a href="?lang=fr">@SR["Lang_FR"]</a>
             </div>
+
         </div>
     </header>
 

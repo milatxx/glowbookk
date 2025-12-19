@@ -1,19 +1,32 @@
 using GlowBook.Model.Data;
 using GlowBook.Model.Entities;
+using GlowBook.Web;
+using GlowBook.Web.Middleware;
+using GlowBook.Web.Services;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Localization;
 using Microsoft.EntityFrameworkCore;
+using Serilog;
 using System.Globalization;
-using GlowBook.Web;
-
 
 var builder = WebApplication.CreateBuilder(args);
 
+// Serilog configuratie
+Log.Logger = new LoggerConfiguration()
+    .ReadFrom.Configuration(builder.Configuration)
+    .Enrich.FromLogContext()
+    .WriteTo.File("logs/glowbook-.log", rollingInterval: RollingInterval.Day)
+    .CreateLogger();
+
+builder.Host.UseSerilog();
+
 // DbContext
 builder.Services.AddDbContext<AppDbContext>(options =>
-    options.UseSqlite(
+    options.UseSqlServer(
         builder.Configuration.GetConnectionString("DefaultConnection")
-        ?? "Data Source=glowbook.db"));
+        ?? throw new InvalidOperationException("DefaultConnection ontbreekt"),
+        sql => sql.EnableRetryOnFailure(5, TimeSpan.FromSeconds(10), null)
+    ));
 
 // Identity
 builder.Services.AddIdentity<ApplicationUser, IdentityRole>(options =>
@@ -23,9 +36,10 @@ builder.Services.AddIdentity<ApplicationUser, IdentityRole>(options =>
     options.Password.RequireUppercase = false;
     options.Password.RequireNonAlphanumeric = false;
     options.Password.RequiredLength = 6;
+    options.SignIn.RequireConfirmedEmail = true;
 })
-    .AddEntityFrameworkStores<AppDbContext>()
-    .AddDefaultTokenProviders();
+.AddEntityFrameworkStores<AppDbContext>()
+.AddDefaultTokenProviders();
 
 // Localisation
 builder.Services.AddLocalization(options => options.ResourcesPath = "Resources");
@@ -38,7 +52,8 @@ builder.Services.AddControllersWithViews()
 var supportedCultures = new[]
 {
     new CultureInfo("nl"),
-    new CultureInfo("en")
+    new CultureInfo("en"),
+    new CultureInfo("fr")
 };
 
 builder.Services.Configure<RequestLocalizationOptions>(options =>
@@ -61,13 +76,29 @@ builder.Services.AddAuthorization(options =>
     options.AddPolicy("CanViewReports", p => p.RequireClaim("permission", "view_reports"));
 });
 
-// Extra middleware
+// Email services (SMTP)
+builder.Services.Configure<EmailSettings>(builder.Configuration.GetSection("Email"));
+builder.Services.AddSingleton(sp =>
+{
+    var cfg = sp.GetRequiredService<IConfiguration>();
+    var settings = new EmailSettings();
+    cfg.GetSection("Email").Bind(settings);
+    return settings;
+});
+builder.Services.AddScoped<IEmailService, SmtpEmailService>();
+
+// Middleware registreren als services
 builder.Services.AddSingleton<CultureCookieMiddleware>();
+builder.Services.AddSingleton<ErrorHandlingMiddleware>();
+builder.Services.AddScoped<ActiveUserMiddleware>();
 
 builder.Services.AddHttpContextAccessor();
 builder.Services.AddSession();
 
 var app = builder.Build();
+
+// Pipeline: ErrorHandlingMiddleware
+app.UseMiddleware<ErrorHandlingMiddleware>();
 
 // DB migratie plus seed
 using (var scope = app.Services.CreateScope())
@@ -110,16 +141,8 @@ using (var scope = app.Services.CreateScope())
     if (!ctx.Staff.Any())
     {
         ctx.Staff.AddRange(
-            new Staff
-            {
-                Name = "Tamara",
-                Email = "tamara@glowbook.local"
-            },
-            new Staff
-            {
-                Name = "Mila",
-                Email = "mila@glowbook.local"
-            }
+            new Staff { Name = "Tamara", Email = "tamara@glowbook.local" },
+            new Staff { Name = "Mila", Email = "mila@glowbook.local" }
         );
 
         await ctx.SaveChangesAsync();
@@ -141,10 +164,10 @@ app.UseRouting();
 app.UseRequestLocalization();
 app.UseMiddleware<CultureCookieMiddleware>();
 
-app.UseAuthentication();
-app.UseAuthorization();
-
 app.UseSession();
+app.UseAuthentication();
+app.UseMiddleware<ActiveUserMiddleware>();
+app.UseAuthorization();
 
 app.MapControllerRoute(
     name: "default",

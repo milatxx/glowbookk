@@ -40,6 +40,15 @@ public class AppDbContext : IdentityDbContext<ApplicationUser>
             .HasOne(x => x.Service)
             .WithMany(s => s.AppointmentServices)
             .HasForeignKey(x => x.ServiceId);
+
+        builder.Entity<Service>()
+            .Property(s => s.Price)
+            .HasPrecision(10, 2);
+
+        // (Appointment heeft soft delete filter, join niet)
+        builder.Entity<AppointmentService>()
+            .HasQueryFilter(x => !x.Appointment.IsDeleted && !x.Service.IsDeleted);
+
     }
 
     public override int SaveChanges()

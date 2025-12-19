@@ -117,106 +117,49 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
-  <data name="Calendar_AllCustomers" xml:space="preserve">
-    <value>-- Alle klanten --</value>
-  </data>
-  <data name="Calendar_AllStaff" xml:space="preserve">
-    <value>-- Alle medewerkers --</value>
-  </data>
-  <data name="Calendar_AllStatuses" xml:space="preserve">
-    <value>-- Alle statussen --</value>
-  </data>
-  <data name="Calendar_Filter" xml:space="preserve">
-    <value>Filter</value>
-  </data>
-  <data name="Calendar_NewAppointment" xml:space="preserve">
-    <value>Nieuwe afspraak</value>
-  </data>
-  <data name="Calendar_NoResults" xml:space="preserve">
-    <value>Er zijn geen afspraken voor de huidige filter.</value>
-  </data>
-  <data name="Calendar_Reset" xml:space="preserve">
-    <value>Reset</value>
-  </data>
-  <data name="Calendar_Subtitle" xml:space="preserve">
-    <value>Overzicht van alle geplande afspraken.</value>
-  </data>
-  <data name="Calendar_Title" xml:space="preserve">
-    <value>Kalender</value>
-  </data>
   <data name="Lang_EN" xml:space="preserve">
     <value>EN</value>
+  </data>
+  <data name="Lang_FR" xml:space="preserve">
+    <value>FR</value>
   </data>
   <data name="Lang_NL" xml:space="preserve">
     <value>NL</value>
   </data>
+  <data name="Login_Email" xml:space="preserve">
+    <value>E-mail</value>
+  </data>
+  <data name="Login_Password" xml:space="preserve">
+    <value>Mot de passe</value>
+  </data>
+  <data name="Login_RegisterButton" xml:space="preserve">
+    <value>S’inscrire</value>
+  </data>
+  <data name="Login_RememberMe" xml:space="preserve">
+    <value>Se souvenir de moi</value>
+  </data>
+  <data name="Login_SubmitButton" xml:space="preserve">
+    <value>Se connecter</value>
+  </data>
+  <data name="Login_Title" xml:space="preserve">
+    <value>Connexion</value>
+  </data>
   <data name="Nav_Calendar" xml:space="preserve">
-    <value>Kalender</value>
+    <value>Calendrier</value>
   </data>
   <data name="Nav_Customers" xml:space="preserve">
-    <value>Klanten</value>
+    <value>Clients</value>
   </data>
   <data name="Nav_Home" xml:space="preserve">
-    <value>Home</value>
-  </data>
-  <data name="Nav_Services" xml:space="preserve">
-    <value>Diensten</value>
-  </data>
-  <data name="AppTitle" xml:space="preserve">
-    <value>Glowbook</value>
-  </data>
-  <data name="Calendar_ColumnDate" xml:space="preserve">
-    <value>Datum</value>
-  </data>
-  <data name="Calendar_ColumnStart" xml:space="preserve">
-    <value>Start</value>
-  </data>
-  <data name="Calendar_ColumnEnd" xml:space="preserve">
-    <value>Einde</value>
-  </data>
-  <data name="Calendar_ColumnCustomer" xml:space="preserve">
-    <value>Klant</value>
-  </data>
-  <data name="Calendar_ColumnStaff" xml:space="preserve">
-    <value>Medewerker</value>
-  </data>
-  <data name="Calendar_ColumnService" xml:space="preserve">
-    <value>Dienst</value>
-  </data>
-  <data name="Calendar_ColumnStatus" xml:space="preserve">
-    <value>Status</value>
+    <value>Accueil</value>
   </data>
   <data name="Nav_Login" xml:space="preserve">
-    <value>Aanmelden</value>
+    <value>Connexion</value>
   </data>
   <data name="Nav_Logout" xml:space="preserve">
-    <value>Uitloggen</value>
+    <value>Déconnexion</value>
   </data>
-  <data name="Calendar_Filter_From" xml:space="preserve">
-    <value>Vanaf</value>
-  </data>
-  <data name="Calendar_Filter_To" xml:space="preserve">
-    <value>Tot</value>
-  </data>
-  <data name="Calendar_Filter_Customer" xml:space="preserve">
-    <value>Klant</value>
-  </data>
-  <data name="Calendar_Filter_Staff" xml:space="preserve">
-    <value>Medewerker</value>
-  </data>
-  <data name="Calendar_Filter_Status" xml:space="preserve">
-    <value>Status</value>
-  </data>
-  <data name="Error_Title" xml:space="preserve">
-    <value>Er is iets misgelopen</value>
-  </data>
-  <data name="Error_Message" xml:space="preserve">
-    <value>Er is een onverwachte fout opgetreden. Probeer het later opnieuw.</value>
-  </data>
-  <data name="Error_BackToHome" xml:space="preserve">
-    <value>Terug naar de startpagina</value>
-  </data>
-  <data name="Lang_FR" xml:space="preserve">
-    <value>FR</value>
+  <data name="Nav_Services" xml:space="preserve">
+    <value>Services</value>
   </data>
 </root>
