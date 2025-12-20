@@ -219,4 +219,7 @@
   <data name="Lang_FR" xml:space="preserve">
     <value>FR</value>
   </data>
+  <data name="Nav_Staff" xml:space="preserve">
+    <value>Staff</value>
+  </data>
 </root>

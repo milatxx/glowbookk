@@ -120,11 +120,29 @@
   <data name="Lang_EN" xml:space="preserve">
     <value>EN</value>
   </data>
-  <data name="Lang_FR" xml:space="preserve">
-    <value>FR</value>
-  </data>
   <data name="Lang_NL" xml:space="preserve">
     <value>NL</value>
+  </data>
+  <data name="Nav_Calendar" xml:space="preserve">
+    <value>Calendrier</value>
+  </data>
+  <data name="Nav_Customers" xml:space="preserve">
+    <value>Clients</value>
+  </data>
+  <data name="Nav_Home" xml:space="preserve">
+    <value>Accueil</value>
+  </data>
+  <data name="Nav_Services" xml:space="preserve">
+    <value>Services</value>
+  </data>
+  <data name="Nav_Login" xml:space="preserve">
+    <value>Connexion</value>
+  </data>
+  <data name="Nav_Logout" xml:space="preserve">
+    <value>Déconnexion</value>
+  </data>
+  <data name="Lang_FR" xml:space="preserve">
+    <value>FR</value>
   </data>
   <data name="Login_Email" xml:space="preserve">
     <value>E-mail</value>
@@ -144,22 +162,7 @@
   <data name="Login_Title" xml:space="preserve">
     <value>Connexion</value>
   </data>
-  <data name="Nav_Calendar" xml:space="preserve">
-    <value>Calendrier</value>
-  </data>
-  <data name="Nav_Customers" xml:space="preserve">
-    <value>Clients</value>
-  </data>
-  <data name="Nav_Home" xml:space="preserve">
-    <value>Accueil</value>
-  </data>
-  <data name="Nav_Login" xml:space="preserve">
-    <value>Connexion</value>
-  </data>
-  <data name="Nav_Logout" xml:space="preserve">
-    <value>Déconnexion</value>
-  </data>
-  <data name="Nav_Services" xml:space="preserve">
-    <value>Services</value>
+  <data name="Nav_Staff" xml:space="preserve">
+    <value>Personnel</value>
   </data>
 </root>

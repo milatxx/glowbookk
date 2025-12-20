@@ -51,6 +51,15 @@
                         @SR["Nav_Services"]
                     </a>
 
+                    @if (User.Identity?.IsAuthenticated ?? false && (User.IsInRole("Admin") || User.IsInRole("Owner")))
+                    {
+                        <a asp-controller="Staff"
+                           asp-action="Index"
+                           class="gb-nav-btn">
+                            @SR["Nav_Staff"]
+                        </a>
+                    }
+
                     @if (User.IsInRole("Admin"))
                     {
                         <a asp-controller="Admin"

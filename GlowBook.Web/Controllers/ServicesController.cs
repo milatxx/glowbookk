@@ -27,15 +27,25 @@ public class ServicesController : Controller
         _ctx = ctx;
     }
 
-    public async Task<IActionResult> Index()
+    public async Task<IActionResult> Index(string? q = null, string sort = "name")
     {
-        var services = await _ctx.Services
-            .OrderBy(s => s.Category)
-            .ThenBy(s => s.Name)
-            .ToListAsync();
+        var query = _ctx.Services.AsQueryable();
 
-        return View(services);
+        if (!string.IsNullOrWhiteSpace(q))
+            query = query.Where(s => s.Name.Contains(q));
+
+        query = sort switch
+        {
+            "name_desc" => query.OrderByDescending(s => s.Name),
+            _ => query.OrderBy(s => s.Name)
+        };
+
+        ViewBag.Q = q;
+        ViewBag.Sort = sort;
+
+        return View(await query.ToListAsync());
     }
+
 
     public async Task<IActionResult> Details(int id)
     {
@@ -111,19 +121,21 @@ public class ServicesController : Controller
         return View(service);
     }
 
-    [HttpPost]
+    [HttpPost, ActionName("Delete")]
     [Authorize(Policy = "RequireAdmin")]
     [ValidateAntiForgeryToken]
-    public async Task<IActionResult> Delete(Service model)
+    public async Task<IActionResult> DeleteConfirmed(int id)
     {
-        var service = await _ctx.Services.FirstOrDefaultAsync(s => s.Id == model.Id);
+        var service = await _ctx.Services.FirstOrDefaultAsync(s => s.Id == id);
         if (service == null) return NotFound();
 
-        _ctx.Services.Remove(service);   // soft delete via BaseEntity
+        _ctx.Services.Remove(service);
         await _ctx.SaveChangesAsync();
+
         TempData["Message"] = "Dienst verwijderd.";
         return RedirectToAction(nameof(Index));
     }
+
 
     // helper om ViewBag.Categories te vullen
     private void FillCategories(string? selected = null)

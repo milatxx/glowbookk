@@ -1,7 +1,9 @@
-﻿@model IEnumerable<GlowBook.Model.Entities.Customer>
+﻿@model List<GlowBook.Model.Entities.Customer>
 
 @{
     ViewData["Title"] = "Klanten";
+    var q = ViewBag.Q as string;
+    var sort = ViewBag.Sort as string ?? "name";
 }
 
 <div class="gb-card mt-3">
@@ -16,6 +18,25 @@
     <p class="text-muted mb-2">
         Overzicht van alle actieve klanten.
     </p>
+
+    <form method="get" class="row g-2 mb-3">
+        <div class="col-md-6">
+            <input class="form-control" name="q" value="@q" placeholder="Zoek klant..." />
+        </div>
+
+        <div class="col-md-3">
+            <select class="form-select" name="sort">
+                <option value="name" selected="@(sort == "name")">Naam A-Z</option>
+                <option value="name_desc" selected="@(sort == "name_desc")">Naam Z-A</option>
+            </select>
+        </div>
+
+        <div class="col-md-3 text-end">
+            <button class="btn-gb" type="submit">Filter</button>
+            <a class="btn btn-outline-secondary ms-2" asp-action="Index">Reset</a>
+        </div>
+
+    </form>
 
     <div class="gb-table-wrapper">
         <table class="table table-hover align-middle mb-0 gb-table">

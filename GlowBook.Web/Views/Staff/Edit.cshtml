@@ -1,0 +1,41 @@
+﻿@model GlowBook.Model.Entities.Staff
+
+@{
+    ViewData["Title"] = "Medewerker aanpassen";
+}
+
+<div class="gb-card mt-3">
+    <div class="d-flex justify-content-between align-items-center mb-2">
+        <div class="gb-card-title">Medewerker aanpassen</div>
+    </div>
+
+    <p class="text-muted mb-3">
+        Pas de gegevens van de medewerker aan.
+    </p>
+
+    <form method="post">
+        @Html.AntiForgeryToken()
+        <input type="hidden" asp-for="Id" />
+
+        <div class="mb-3">
+            <label class="form-label">Naam</label>
+            <input class="form-control" asp-for="Name" />
+            <span class="text-danger" asp-validation-for="Name"></span>
+        </div>
+
+        <div class="mb-3">
+            <label class="form-label">Email</label>
+            <input class="form-control" asp-for="Email" />
+            <span class="text-danger" asp-validation-for="Email"></span>
+        </div>
+
+        <div class="d-flex gap-2">
+            <button class="btn-gb" type="submit">Opslaan</button>
+            <a class="btn btn-outline-secondary" asp-action="Index">Annuleren</a>
+        </div>
+    </form>
+</div>
+
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+}

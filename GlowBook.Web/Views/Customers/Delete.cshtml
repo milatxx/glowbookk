@@ -23,6 +23,7 @@
     </dl>
 
     <form asp-action="Delete" method="post">
+        @Html.AntiForgeryToken()
         <input type="hidden" asp-for="Id" />
         <a asp-action="Index" class="btn btn-outline-secondary">
             Annuleren

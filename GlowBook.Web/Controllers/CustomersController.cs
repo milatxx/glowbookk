@@ -17,14 +17,27 @@ public class CustomersController : Controller
         _ctx = ctx;
     }
 
-    public async Task<IActionResult> Index()
+    public async Task<IActionResult> Index(string? q = null, string sort = "name")
     {
-        var customers = await _ctx.Customers
-            .OrderBy(c => c.Name)
-            .ToListAsync();
+        var query = _ctx.Customers.AsQueryable();
 
-        return View(customers);
+        if (!string.IsNullOrWhiteSpace(q))
+            query = query.Where(c => c.Name.Contains(q) ||
+                                     (c.Email != null && c.Email.Contains(q)) ||
+                                     (c.Phone != null && c.Phone.Contains(q)));
+
+        query = sort switch
+        {
+            "name_desc" => query.OrderByDescending(c => c.Name),
+            _ => query.OrderBy(c => c.Name)
+        };
+
+        ViewBag.Q = q;
+        ViewBag.Sort = sort;
+
+        return View(await query.ToListAsync());
     }
+
 
     public async Task<IActionResult> Details(int id)
     {
@@ -104,16 +117,17 @@ public class CustomersController : Controller
         return View(customer);
     }
 
-    [HttpPost]
+    [HttpPost, ActionName("Delete")]
     [Authorize(Policy = "RequireAdmin")]
     [ValidateAntiForgeryToken]
-    public async Task<IActionResult> Delete(Customer model)
+    public async Task<IActionResult> DeleteConfirmed(int id)
     {
-        var customer = await _ctx.Customers.FirstOrDefaultAsync(c => c.Id == model.Id);
+        var customer = await _ctx.Customers.FirstOrDefaultAsync(c => c.Id == id);
         if (customer == null) return NotFound();
 
-        _ctx.Customers.Remove(customer); // soft delete via context
+        _ctx.Customers.Remove(customer);
         await _ctx.SaveChangesAsync();
+
         TempData["Message"] = "Klant verwijderd.";
         return RedirectToAction(nameof(Index));
     }

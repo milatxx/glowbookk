@@ -1,0 +1,83 @@
+﻿@model List<GlowBook.Model.Entities.Staff>
+
+@{
+    ViewData["Title"] = "Medewerkers";
+    var q = ViewBag.Q as string;
+}
+
+<div class="gb-card mt-3">
+    <div class="d-flex justify-content-between align-items-center mb-2">
+        <div class="gb-card-title">Medewerkers</div>
+
+        @if (User.IsInRole("Admin"))
+        {
+            <a asp-action="Create" class="btn-gb">Nieuw</a>
+        }
+    </div>
+
+    <p class="text-muted mb-2">
+        Overzicht van alle medewerkers.
+    </p>
+
+    <form method="get" class="row g-2 mb-3">
+        <div class="col-md-8">
+            <input class="form-control" name="q" value="@q" placeholder="Zoek op naam of email..." />
+        </div>
+
+        <div class="col-md-4 text-end">
+            <button class="btn-gb" type="submit">Zoek</button>
+            <a class="btn btn-outline-secondary ms-2" asp-action="Index">Reset</a>
+        </div>
+
+    </form>
+
+    <div class="gb-table-wrapper">
+        <table class="table table-hover align-middle mb-0 gb-table">
+            <thead>
+                <tr>
+                    <th>Naam</th>
+                    <th>Email</th>
+                    <th style="width: 220px;">Acties</th>
+                </tr>
+            </thead>
+            <tbody>
+                @if (Model.Count == 0)
+                {
+                    <tr>
+                        <td colspan="3">
+                            <div class="alert alert-info mb-0">
+                                Er zijn geen medewerkers voor de huidige filter.
+                            </div>
+                        </td>
+                    </tr>
+                }
+                else
+                {
+                    @foreach (var s in Model)
+                    {
+                        <tr>
+                            <td>@s.Name</td>
+                            <td>@s.Email</td>
+                            <td class="text-end">
+                                @if (User.IsInRole("Admin"))
+                                {
+                                    <a asp-action="Edit" asp-route-id="@s.Id" class="btn btn-sm btn-outline-secondary me-1">
+                                        Bewerk
+                                    </a>
+                                    <a asp-action="Delete" asp-route-id="@s.Id" class="btn btn-sm btn-outline-danger">
+                                        Verwijder
+                                    </a>
+                                }
+                                else
+                                {
+                                    <span class="text-muted">—</span>
+                                }
+                            </td>
+                        </tr>
+                    }
+                }
+            </tbody>
+
+        </table>
+    </div>
+</div>
