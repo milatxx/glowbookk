@@ -21,11 +21,11 @@
                     <HorizontalStackLayout HorizontalOptions="End">
                         <Button Text="Sync"
                                 Style="{StaticResource GbPrimaryButton}"
-                                Command="{Binding LoadAsync}" />
+                                Command="{Binding LoadCommand}" />
                     </HorizontalStackLayout>
 
                     <RefreshView IsRefreshing="{Binding IsBusy}"
-                                 Command="{Binding LoadAsync}">
+                                 Command="{Binding LoadCommand}">
                         <CollectionView ItemsSource="{Binding Customers}">
                             <CollectionView.EmptyView>
                                 <Label Text="Geen klanten gevonden."

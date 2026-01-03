@@ -1,5 +1,5 @@
-﻿using CommunityToolkit.Mvvm.ComponentModel;
-using GlowBook.Mobile.Models;
+﻿using CommunityToolkit.Mvvm.Input;
+using GlowBook.Mobile.Models.Offline;
 using GlowBook.Mobile.Services;
 using System.Collections.ObjectModel;
 
@@ -10,7 +10,7 @@ public partial class AgendaViewModel : BaseViewModel
     private readonly SyncService _sync;
     private readonly LocalDatabase _db;
 
-    public ObservableCollection<LocalAppointment> Appointments { get; } = new();
+    public ObservableCollection<LocalAppointmentV2> Appointments { get; } = new();
 
     public AgendaViewModel(SyncService sync, LocalDatabase db)
     {
@@ -19,6 +19,7 @@ public partial class AgendaViewModel : BaseViewModel
         _db = db;
     }
 
+    [RelayCommand]
     public async Task LoadAsync()
     {
         if (IsBusy) return;
@@ -26,7 +27,7 @@ public partial class AgendaViewModel : BaseViewModel
 
         try
         {
-            await _sync.SyncAppointmentsAsync();
+            await _sync.TrySyncEverythingAsync();
 
             var list = await _db.GetAppointmentsAsync();
 
@@ -38,5 +39,11 @@ public partial class AgendaViewModel : BaseViewModel
         {
             IsBusy = false;
         }
+    }
+
+    [RelayCommand]
+    private async Task NewAppointmentAsync()
+    {
+        await Shell.Current.GoToAsync("appointment/new");
     }
 }

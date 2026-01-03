@@ -1,10 +1,11 @@
-﻿using System.Collections.ObjectModel;
+﻿using System.Collections.ObjectModel;   
 using GlowBook.Model.Entities;
 using GlowBook.Mobile.Services;
+using CommunityToolkit.Mvvm.Input;
 
 namespace GlowBook.Mobile.ViewModels;
 
-public class CustomersViewModel : BaseViewModel
+public partial class CustomersViewModel : BaseViewModel
 {
     private readonly ApiClient _apiClient;
 
@@ -16,6 +17,7 @@ public class CustomersViewModel : BaseViewModel
         Title = "Customers";
     }
 
+    [RelayCommand]
     public async Task LoadAsync()
     {
         if (IsBusy)

@@ -1,5 +1,6 @@
 ﻿using GlowBook.Model.Data;
 using GlowBook.Model.Entities;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
@@ -8,7 +9,7 @@ namespace GlowBook.Web.Controllers.Api;
 
 [Route("api/[controller]")]
 [ApiController]
-[Authorize] 
+[Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
 public class AppointmentsController : ControllerBase
 {
     private readonly AppDbContext _ctx;
@@ -27,6 +28,8 @@ public class AppointmentsController : ControllerBase
         var query = _ctx.Appointments
             .Include(a => a.Customer)
             .Include(a => a.Staff)
+            .Include(a => a.AppointmentServices)
+                .ThenInclude(x => x.Service)
             .AsQueryable();
 
         if (from.HasValue)
@@ -48,7 +51,10 @@ public class AppointmentsController : ControllerBase
         var appt = await _ctx.Appointments
             .Include(a => a.Customer)
             .Include(a => a.Staff)
+            .Include(a => a.AppointmentServices)
+                 .ThenInclude(x => x.Service)
             .FirstOrDefaultAsync(a => a.Id == id);
+
 
         if (appt == null)
             return NotFound();

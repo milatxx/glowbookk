@@ -1,44 +1,41 @@
-﻿using System.Collections.ObjectModel;
-using GlowBook.Model.Entities;
+﻿using CommunityToolkit.Mvvm.ComponentModel;
+using CommunityToolkit.Mvvm.Input;
 using GlowBook.Mobile.Services;
+using GlowBook.Model.Entities;
+using System.Collections.ObjectModel;
 
 namespace GlowBook.Mobile.ViewModels;
 
-public class ServicesViewModel : BaseViewModel
+public partial class ServicesViewModel : BaseViewModel
 {
-    private readonly ApiClient _apiClient;
+    private readonly ApiClient _api;
 
     public ObservableCollection<Service> Services { get; } = new();
 
-    public ServicesViewModel(ApiClient apiClient)
+    [ObservableProperty] private string error = "";
+
+    public ServicesViewModel(ApiClient api)
     {
-        _apiClient = apiClient;
+        _api = api;
         Title = "Services";
     }
 
+    [RelayCommand]
     public async Task LoadAsync()
     {
-        if (IsBusy)
-            return;
+        if (IsBusy) return;
+        IsBusy = true;
+        Error = "";
 
         try
         {
-            IsBusy = true;
-
+            var items = await _api.GetServicesAsync();
             Services.Clear();
-
-            var items = await _apiClient.GetServicesAsync();
-
-            foreach (var service in items)
-            {
-                Services.Add(service);
-            }
+            foreach (var s in items) Services.Add(s);
         }
         catch (Exception ex)
         {
-            // logging
-            System.Diagnostics.Debug.WriteLine($"Failed to load services: {ex}");
-            throw; // Page kan DisplayAlert tonen
+            Error = ex.Message;
         }
         finally
         {

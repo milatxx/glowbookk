@@ -1,4 +1,4 @@
-﻿using GlowBook.Mobile.Services;
+﻿using GlowBook.Mobile.Services; 
 using GlowBook.Mobile.ViewModels;
 using GlowBook.Mobile.Views;
 
@@ -17,10 +17,17 @@ public static class MauiProgram
                 fonts.AddFont("OpenSans-Regular.ttf", "OpenSansRegular");
             });
 
-        // HttpClient voor API-calls
-        builder.Services.AddSingleton<HttpClient>();
+        builder.Services.AddSingleton(sp =>
+        {
+            var settings = sp.GetRequiredService<SettingsService>();
+            return new HttpClient
+            {
+                BaseAddress = new Uri(settings.ApiBaseUrl)
+            };
+        });
 
-        // Services
+        builder.Services.AddSingleton<SettingsService>();
+        builder.Services.AddSingleton<AuthService>();
         builder.Services.AddSingleton<ApiClient>();
 
         var dbPath = Path.Combine(FileSystem.AppDataDirectory, "glowbook_mobile.db3");
@@ -31,11 +38,17 @@ public static class MauiProgram
         builder.Services.AddTransient<AgendaViewModel>();
         builder.Services.AddTransient<CustomersViewModel>();
         builder.Services.AddTransient<ServicesViewModel>();
+        builder.Services.AddTransient<CreateAppointmentViewModel>();
 
         // Views
         builder.Services.AddTransient<AgendaPage>();
         builder.Services.AddTransient<CustomersPage>();
         builder.Services.AddTransient<ServicesPage>();
+        builder.Services.AddTransient<CreateAppointmentPage>();
+
+        // Login
+        builder.Services.AddTransient<LoginViewModel>();
+        builder.Services.AddTransient<LoginPage>();
 
         return builder.Build();
     }
