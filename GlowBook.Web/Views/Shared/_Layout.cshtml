@@ -33,44 +33,51 @@
                         @SR["Nav_Home"]
                     </a>
 
-                    <a asp-controller="Appointments"
-                       asp-action="Index"
-                       class="gb-nav-btn">
-                        @SR["Nav_Calendar"]
-                    </a>
-
-                    <a asp-controller="Customers"
-                       asp-action="Index"
-                       class="gb-nav-btn">
-                        @SR["Nav_Customers"]
-                    </a>
-
-                    <a asp-controller="Services"
-                       asp-action="Index"
-                       class="gb-nav-btn">
-                        @SR["Nav_Services"]
-                    </a>
-
-                    @if (User.Identity?.IsAuthenticated ?? false && (User.IsInRole("Admin") || User.IsInRole("Owner")))
-                    {
-                        <a asp-controller="Staff"
-                           asp-action="Index"
-                           class="gb-nav-btn">
-                            @SR["Nav_Staff"]
-                        </a>
-                    }
-
-                    @if (User.IsInRole("Admin"))
-                    {
-                        <a asp-controller="Admin"
-                           asp-action="Users"
-                           class="gb-nav-btn">
-                            Admin
-                        </a>
-                    }
-
+                    @* Alles hieronder enkel tonen als ingelogd *@
                     @if (User.Identity?.IsAuthenticated ?? false)
                     {
+                        @* Calendar/Appointments enkel voor Admin/Owner/Employee *@
+                        @if (User.IsInRole("Admin") || User.IsInRole("Owner") || User.IsInRole("Employee"))
+                        {
+                            <a asp-controller="Appointments"
+                               asp-action="Index"
+                               class="gb-nav-btn">
+                                @SR["Nav_Calendar"]
+                            </a>
+                        }
+
+                        <a asp-controller="Customers"
+                           asp-action="Index"
+                           class="gb-nav-btn">
+                            @SR["Nav_Customers"]
+                        </a>
+
+                        <a asp-controller="Services"
+                           asp-action="Index"
+                           class="gb-nav-btn">
+                            @SR["Nav_Services"]
+                        </a>
+
+                        @* Staff enkel voor Admin/Owner *@
+                        @if (User.IsInRole("Admin") || User.IsInRole("Owner"))
+                        {
+                            <a asp-controller="Staff"
+                               asp-action="Index"
+                               class="gb-nav-btn">
+                                @SR["Nav_Staff"]
+                            </a>
+                        }
+
+                        @* Users beheer enkel voor Admin *@
+                        @if (User.IsInRole("Admin"))
+                        {
+                            <a asp-controller="Admin"
+                               asp-action="Users"
+                               class="gb-nav-btn">
+                                @SR["Nav_Admin"] 
+                            </a>
+                        }
+
                         <form id="logoutForm"
                               asp-controller="Account"
                               asp-action="Logout"
@@ -89,8 +96,8 @@
                             @SR["Nav_Login"]
                         </a>
                     }
-
                 </div>
+
             </div>
 
             <!-- TAALWISSEL -->

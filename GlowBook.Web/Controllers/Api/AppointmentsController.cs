@@ -20,9 +20,8 @@ public class AppointmentsController : ControllerBase
     }
 
     // GET: api/appointments
-    // Deze mag MAUI-app zonder login gebruiken
     [HttpGet]
-    [AllowAnonymous]
+    [Authorize(Policy = "CanManageAppointments")]
     public async Task<ActionResult<IEnumerable<Appointment>>> GetAll(DateTime? from = null, DateTime? to = null)
     {
         var query = _ctx.Appointments
@@ -43,9 +42,8 @@ public class AppointmentsController : ControllerBase
     }
 
     // GET: api/appointments/5
-    // Ook anoniem, handig voor detail in MAUI
     [HttpGet("{id}")]
-    [AllowAnonymous]
+    [Authorize(Policy = "CanManageAppointments")]
     public async Task<ActionResult<Appointment>> Get(int id)
     {
         var appt = await _ctx.Appointments

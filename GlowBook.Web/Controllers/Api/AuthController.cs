@@ -6,6 +6,8 @@ using Microsoft.IdentityModel.Tokens;
 using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
 using System.Text;
+using GlowBook.Web.Services;
+using System.Linq;
 
 namespace GlowBook.Web.Controllers.Api;
 
@@ -15,15 +17,19 @@ public class AuthController : ControllerBase
 {
     private readonly UserManager<ApplicationUser> _userManager;
     private readonly IConfiguration _config;
+    private readonly IEmailService _emailService;
 
-    public AuthController(UserManager<ApplicationUser> userManager, IConfiguration config)
+    public AuthController(UserManager<ApplicationUser> userManager, IConfiguration config, IEmailService emailService)
     {
         _userManager = userManager;
         _config = config;
+        _emailService = emailService;
     }
 
     public record LoginRequest(string Email, string Password);
     public record LoginResponse(string AccessToken, DateTime ExpiresUtc, string Email, string DisplayName, string[] Roles, string[] Permissions);
+    public record RegisterRequest(string Email, string Password, string DisplayName);
+    public record RegisterResponse(string Message);
 
     [HttpPost("login")]
     [AllowAnonymous]
@@ -35,6 +41,8 @@ public class AuthController : ControllerBase
 
         if (!user.IsActive)
             return Unauthorized("Gebruiker is gedeactiveerd.");
+        if (!user.EmailConfirmed)
+            return Unauthorized("Bevestig eerst je e-mailadres.");
 
         var ok = await _userManager.CheckPasswordAsync(user, req.Password);
         if (!ok)
@@ -90,4 +98,53 @@ public class AuthController : ControllerBase
             Permissions: permissions
         ));
     }
+
+    [HttpPost("register")]
+    [AllowAnonymous]
+    public async Task<ActionResult<RegisterResponse>> Register([FromBody] RegisterRequest req)
+    {
+        if (string.IsNullOrWhiteSpace(req.Email) || string.IsNullOrWhiteSpace(req.Password))
+            return BadRequest("Email en wachtwoord zijn verplicht.");
+
+        var existing = await _userManager.FindByEmailAsync(req.Email);
+        if (existing != null)
+            return BadRequest("E-mail bestaat al.");
+
+        var user = new ApplicationUser
+        {
+            UserName = req.Email,
+            Email = req.Email,
+            DisplayName = string.IsNullOrWhiteSpace(req.DisplayName) ? req.Email : req.DisplayName,
+            IsActive = true
+        };
+
+        var result = await _userManager.CreateAsync(user, req.Password);
+        if (!result.Succeeded)
+            return BadRequest(result.Errors.Select(e => e.Description).ToArray());
+
+        // default rol bij registratie
+        await _userManager.AddToRoleAsync(user, "Employee");
+
+        // email confirmation link
+        var token = await _userManager.GenerateEmailConfirmationTokenAsync(user);
+
+        var confirmUrl = Url.Action(
+            action: "ConfirmEmail",
+            controller: "Account",
+            values: new { userId = user.Id, token },
+            protocol: Request.Scheme);
+
+        if (!string.IsNullOrWhiteSpace(confirmUrl))
+        {
+            await _emailService.SendAsync(
+                toEmail: req.Email,
+                subject: "Bevestig je e-mail",
+                htmlBody: $"Klik op deze link om je account te activeren: <a href=\"{confirmUrl}\">Bevestig e-mail</a>"
+            );
+        }
+
+        return Ok(new RegisterResponse("Registratie gelukt. Controleer je e-mail om te bevestigen."));
+    }
+
+
 }

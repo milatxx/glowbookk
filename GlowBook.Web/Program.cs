@@ -59,13 +59,13 @@ builder.Services.AddAuthentication()
             ValidateAudience = true,
             ValidateLifetime = true,
             ValidateIssuerSigningKey = true,
-
             ValidIssuer = builder.Configuration["Jwt:Issuer"],
             ValidAudience = builder.Configuration["Jwt:Audience"],
             IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(key)),
             ClockSkew = TimeSpan.FromMinutes(2)
         };
     });
+
 
 
 // Localisation
@@ -103,9 +103,11 @@ builder.Services.Configure<RequestLocalizationOptions>(options =>
 // Authorization policies
 builder.Services.AddAuthorization(options =>
 {
-    options.AddPolicy("RequireAdmin", p => p.RequireRole("Admin"));
-    options.AddPolicy("CanManageAppointments", p => p.RequireClaim("permission", "manage_appointments"));
-    options.AddPolicy("CanViewReports", p => p.RequireClaim("permission", "view_reports"));
+    options.AddPolicy("CanManageAppointments", policy =>
+        policy.RequireRole("Admin", "Owner", "Employee"));
+
+    options.AddPolicy("CanViewReports", policy =>
+        policy.RequireRole("Admin", "Owner"));
 });
 
 // Email services (SMTP)
@@ -136,50 +138,15 @@ app.UseMiddleware<ErrorHandlingMiddleware>();
 // DB migratie plus seed
 using (var scope = app.Services.CreateScope())
 {
-    var ctx = scope.ServiceProvider.GetRequiredService<AppDbContext>();
-    ctx.Database.Migrate();
+    var services = scope.ServiceProvider;
 
-    var roleMgr = scope.ServiceProvider.GetRequiredService<RoleManager<IdentityRole>>();
-    var userMgr = scope.ServiceProvider.GetRequiredService<UserManager<ApplicationUser>>();
+    var ctx = services.GetRequiredService<AppDbContext>();
+    await ctx.Database.MigrateAsync();
 
-    string[] roles = { "Admin", "Employee", "Owner" };
-    foreach (var role in roles)
-    {
-        if (!await roleMgr.RoleExistsAsync(role))
-            await roleMgr.CreateAsync(new IdentityRole(role));
-    }
+    var userMgr = services.GetRequiredService<UserManager<ApplicationUser>>();
+    var roleMgr = services.GetRequiredService<RoleManager<IdentityRole>>();
 
-    var adminEmail = "admin@glowbook.local";
-    var admin = await userMgr.FindByEmailAsync(adminEmail);
-    if (admin == null)
-    {
-        admin = new ApplicationUser
-        {
-            UserName = adminEmail,
-            Email = adminEmail,
-            DisplayName = "Admin",
-            EmailConfirmed = true,
-            IsActive = true
-        };
-
-        var result = await userMgr.CreateAsync(admin, "Admin123!");
-        if (result.Succeeded)
-        {
-            await userMgr.AddToRoleAsync(admin, "Admin");
-            await userMgr.AddClaimAsync(admin, new System.Security.Claims.Claim("permission", "manage_appointments"));
-            await userMgr.AddClaimAsync(admin, new System.Security.Claims.Claim("permission", "view_reports"));
-        }
-    }
-
-    if (!ctx.Staff.Any())
-    {
-        ctx.Staff.AddRange(
-            new Staff { Name = "Tamara", Email = "tamara@glowbook.local" },
-            new Staff { Name = "Mila", Email = "mila@glowbook.local" }
-        );
-
-        await ctx.SaveChangesAsync();
-    }
+    await DbSeeder.SeedAsync(ctx, userMgr, roleMgr);
 }
 
 // Pipeline
@@ -187,8 +154,10 @@ if (!app.Environment.IsDevelopment())
 {
     app.UseExceptionHandler("/Home/Error");
     app.UseHsts();
-    app.UseHttpsRedirection();
 }
+
+app.UseHttpsRedirection();
+
 
 app.UseStaticFiles();
 

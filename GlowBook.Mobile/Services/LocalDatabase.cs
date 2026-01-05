@@ -187,6 +187,28 @@ public class LocalDatabase
             CreatedUtc = DateTime.UtcNow
         });
     }
+    public async Task EnqueueUpdateAppointmentAsync(string payloadJson)
+    {
+        await EnsureInitializedAsync();
+        await _db.InsertAsync(new PendingChange
+        {
+            Operation = "UpdateAppointment",
+            PayloadJson = payloadJson,
+            CreatedUtc = DateTime.UtcNow
+        });
+    }
+
+    public async Task EnqueueDeleteAppointmentAsync(string payloadJson)
+    {
+        await EnsureInitializedAsync();
+        await _db.InsertAsync(new PendingChange
+        {
+            Operation = "DeleteAppointment",
+            PayloadJson = payloadJson,
+            CreatedUtc = DateTime.UtcNow
+        });
+    }
+
 
     public async Task<List<PendingChange>> GetPendingChangesAsync()
     {
@@ -200,6 +222,18 @@ public class LocalDatabase
     {
         await EnsureInitializedAsync();
         await _db.DeleteAsync<PendingChange>(id);
+    }
+
+    public async Task AddPendingChangeAsync(PendingChange change)
+    {
+        await EnsureInitializedAsync();
+        await _db.InsertAsync(change);
+    }
+
+    public async Task RemovePendingChangeAsync(PendingChange change)
+    {
+        await EnsureInitializedAsync();
+        await _db.DeleteAsync(change);
     }
 
     public async Task MarkLocalAppointmentSyncedAsync(string localUid, int serverId, string status)

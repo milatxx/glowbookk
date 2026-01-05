@@ -17,7 +17,7 @@ public partial class ServicesViewModel : BaseViewModel
     public ServicesViewModel(ApiClient api)
     {
         _api = api;
-        Title = "Services";
+        Title = "Diensten";
     }
 
     [RelayCommand]

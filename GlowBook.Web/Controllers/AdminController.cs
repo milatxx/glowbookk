@@ -3,6 +3,7 @@ using GlowBook.Web.Models.Admin;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 
 namespace GlowBook.Web.Controllers;
 
@@ -16,7 +17,7 @@ public class AdminController(
 
     public async Task<IActionResult> Users()
     {
-        var users = _userManager.Users.ToList();
+        var users = await _userManager.Users.ToListAsync();
         var list = new List<UserListItemViewModel>();
 
         foreach (var u in users)

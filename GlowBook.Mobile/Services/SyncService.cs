@@ -1,4 +1,4 @@
-﻿using GlowBook.Mobile.Models.Offline;
+﻿using GlowBook.Mobile.Models.Offline;   
 using GlowBook.Model.Entities;
 using System.Text.Json;
 
@@ -14,6 +14,9 @@ public class SyncService
         _api = api;
         _db = db;
     }
+
+    public record AppointmentUpsertPayload(string LocalUid, int ServerId, AppointmentDraft Draft);
+    public record AppointmentDeletePayload(string LocalUid, int ServerId);
 
     public bool IsOnline()
         => Connectivity.Current.NetworkAccess == NetworkAccess.Internet;
@@ -77,36 +80,79 @@ public class SyncService
         {
             try
             {
-                if (change.Operation == "CreateAppointment")
+                switch (change.Operation)
                 {
-                    var draft = JsonSerializer.Deserialize<AppointmentDraft>(change.PayloadJson)
-                                ?? throw new Exception("Ongeldige draft JSON");
-
-                    var appt = new Appointment
-                    {
-                        CustomerId = draft.CustomerId,
-                        StaffId = draft.StaffId,
-                        Start = draft.Start,
-                        End = draft.End,
-                        Status = draft.Status,
-                        AppointmentServices = draft.ServiceIds.Select(id => new AppointmentService
+                    case "CreateAppointment":
                         {
-                            ServiceId = id
-                        }).ToList()
-                    };
+                            var draft = JsonSerializer.Deserialize<AppointmentDraft>(change.PayloadJson)
+                                        ?? throw new Exception("Ongeldige draft JSON");
 
-                    var created = await _api.CreateAppointmentAsync(appt);
+                            var appt = new Appointment
+                            {
+                                CustomerId = draft.CustomerId,
+                                StaffId = draft.StaffId,
+                                Start = draft.Start,
+                                End = draft.End,
+                                Status = draft.Status,
+                                AppointmentServices = draft.ServiceIds.Select(id => new AppointmentService
+                                {
+                                    ServiceId = id
+                                }).ToList()
+                            };
 
-                    await _db.MarkLocalAppointmentSyncedAsync(draft.LocalUid, created.Id, created.Status);
-                    await _db.DeletePendingChangeAsync(change.Id);
-                }
-                else
-                {
+                            var created = await _api.CreateAppointmentAsync(appt);
+
+                            await _db.MarkLocalAppointmentSyncedAsync(draft.LocalUid, created.Id, created.Status);
+                            await _db.DeletePendingChangeAsync(change.Id);
+                            break;
+                        }
+
+                    case "UpdateAppointment":
+                        {
+                            var payload = JsonSerializer.Deserialize<AppointmentUpsertPayload>(change.PayloadJson)
+                                          ?? throw new Exception("Ongeldige upsert JSON");
+
+                            var draft = payload.Draft;
+
+                            var appt = new Appointment
+                            {
+                                Id = payload.ServerId,
+                                CustomerId = draft.CustomerId,
+                                StaffId = draft.StaffId,
+                                Start = draft.Start,
+                                End = draft.End,
+                                Status = draft.Status,
+                                AppointmentServices = draft.ServiceIds.Select(id => new AppointmentService
+                                {
+                                    ServiceId = id
+                                }).ToList()
+                            };
+
+                            await _api.UpdateAppointmentAsync(payload.ServerId, appt);
+                            await _db.MarkLocalAppointmentSyncedAsync(payload.LocalUid, payload.ServerId, appt.Status ?? "");
+                            await _db.DeletePendingChangeAsync(change.Id);
+                            break;
+                        }
+
+                    case "DeleteAppointment":
+                        {
+                            var payload = JsonSerializer.Deserialize<AppointmentDeletePayload>(change.PayloadJson)
+                                          ?? throw new Exception("Ongeldige delete JSON");
+
+                            await _api.DeleteAppointmentAsync(payload.ServerId);
+                            await _db.DeletePendingChangeAsync(change.Id);
+                            break;
+                        }
+
+                    default:
+                        {
+                            break;
+                        }
                 }
             }
             catch
             {
-                return;
+                continue;
             }
         }
     }

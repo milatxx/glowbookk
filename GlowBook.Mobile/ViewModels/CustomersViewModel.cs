@@ -1,4 +1,4 @@
-﻿using System.Collections.ObjectModel;   
+﻿using System.Collections.ObjectModel;
 using GlowBook.Model.Entities;
 using GlowBook.Mobile.Services;
 using CommunityToolkit.Mvvm.Input;
@@ -10,18 +10,32 @@ public partial class CustomersViewModel : BaseViewModel
     private readonly ApiClient _apiClient;
 
     public ObservableCollection<Customer> Customers { get; } = new();
+    public ObservableCollection<Customer> FilteredCustomers { get; } = new();
+
+    private string _searchText = string.Empty;
+
+    public string SearchText
+    {
+        get => _searchText;
+        set
+        {
+            if (SetProperty(ref _searchText, value ?? string.Empty))
+            {
+                PasFilterToe();
+            }
+        }
+    }
 
     public CustomersViewModel(ApiClient apiClient)
     {
         _apiClient = apiClient;
-        Title = "Customers";
+        Title = "Klanten";
     }
 
     [RelayCommand]
     public async Task LoadAsync()
     {
-        if (IsBusy)
-            return;
+        if (IsBusy) return;
 
         try
         {
@@ -30,21 +44,34 @@ public partial class CustomersViewModel : BaseViewModel
             Customers.Clear();
 
             var items = await _apiClient.GetCustomersAsync();
+            foreach (var c in items)
+                Customers.Add(c);
 
-            foreach (var customer in items)
-            {
-                Customers.Add(customer);
-            }
+            PasFilterToe();
         }
         catch (Exception ex)
         {
-            // logging
-            System.Diagnostics.Debug.WriteLine($"Failed to load customers: {ex}");
-            throw; // Page kan DisplayAlert tonen
+            System.Diagnostics.Debug.WriteLine($"Klanten laden mislukt: {ex}");
+            throw;
         }
         finally
         {
             IsBusy = false;
+        }
+    }
+
+    private void PasFilterToe()
+    {
+        var q = (SearchText ?? "").Trim().ToLowerInvariant();
+
+        FilteredCustomers.Clear();
+
+        foreach (var c in Customers)
+        {
+            var hay = $"{c.Name} {c.Email} {c.Phone}".ToLowerInvariant();
+
+            if (string.IsNullOrEmpty(q) || hay.Contains(q))
+                FilteredCustomers.Add(c);
         }
     }
 }

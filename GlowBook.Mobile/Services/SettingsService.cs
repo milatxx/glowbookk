@@ -17,10 +17,13 @@ public class SettingsService
         }
     }
 
-    public static string GetDefaultApiBaseUrl()
+    private static string GetDefaultApiBaseUrl()
     {
+        // Android emulator -> via 10.0.2.2 naar mijn pc
         if (DeviceInfo.Platform == DevicePlatform.Android)
-            return "http://10.0.2.2:5293/api/"; 
-        return "http://localhost:5293/api/";
+            return "http://10.0.2.2:5293/api/";
+
+        // Windows/desktop
+        return "https://localhost:7129/api/";
     }
 }

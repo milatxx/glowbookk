@@ -16,6 +16,9 @@
 		<OutputType>Exe</OutputType>
 		<RootNamespace>GlowBook.Mobile</RootNamespace>
 		<UseMaui>true</UseMaui>
+		<AndroidCompileSdkVersion>34</AndroidCompileSdkVersion>
+		<AndroidTargetSdkVersion>34</AndroidTargetSdkVersion>
+		<AndroidUseLatestPlatformSdk>false</AndroidUseLatestPlatformSdk>
 		<SingleProject>true</SingleProject>
 		<ImplicitUsings>enable</ImplicitUsings>
 		<Nullable>enable</Nullable>
@@ -39,6 +42,7 @@
 		<SupportedOSPlatformVersion Condition="$([MSBuild]::GetTargetPlatformIdentifier('$(TargetFramework)')) == 'windows'">10.0.17763.0</SupportedOSPlatformVersion>
 		<TargetPlatformMinVersion Condition="$([MSBuild]::GetTargetPlatformIdentifier('$(TargetFramework)')) == 'windows'">10.0.17763.0</TargetPlatformMinVersion>
 		<SupportedOSPlatformVersion Condition="$([MSBuild]::GetTargetPlatformIdentifier('$(TargetFramework)')) == 'tizen'">6.5</SupportedOSPlatformVersion>
+		<NoWarn>$(NoWarn);MVVMTK0045</NoWarn>
 	</PropertyGroup>
 
 	<ItemGroup>

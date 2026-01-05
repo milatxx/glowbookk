@@ -222,4 +222,31 @@
   <data name="Nav_Staff" xml:space="preserve">
     <value>Staff</value>
   </data>
+  <data name="Nav_Admin" xml:space="preserve">
+    <value>Admin</value>
+  </data>
+  <data name="Calendar_SortBy" xml:space="preserve">
+    <value>Sort by</value>
+  </data>
+  <data name="Calendar_Sort_DateAsc" xml:space="preserve">
+    <value>Date (oldest first)</value>
+  </data>
+  <data name="Calendar_Sort_DateDesc" xml:space="preserve">
+    <value>Date (newest first)</value>
+  </data>
+  <data name="Calendar_Sort_Customer" xml:space="preserve">
+    <value>Customer</value>
+  </data>
+  <data name="Calendar_Sort_Staff" xml:space="preserve">
+    <value>Staff</value>
+  </data>
+  <data name="Calendar_Sort_Status" xml:space="preserve">
+    <value>Status</value>
+  </data>
+  <data name="Paging_Previous" xml:space="preserve">
+    <value>Previous</value>
+  </data>
+  <data name="Paging_Next" xml:space="preserve">
+    <value>Next</value>
+  </data>
 </root>
