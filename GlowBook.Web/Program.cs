@@ -77,7 +77,13 @@ builder.Services.AddControllersWithViews()
         o.JsonSerializerOptions.ReferenceHandler = ReferenceHandler.IgnoreCycles;
     })
     .AddViewLocalization()
-    .AddDataAnnotationsLocalization();
+    .AddDataAnnotationsLocalization(options =>
+    {
+        // DataAnnotations foutmeldingen (ErrorMessage-keys) worden opgezocht
+        // in gedeeld SharedResources resx bestanden (NL/EN/FR).
+        options.DataAnnotationLocalizerProvider = (type, factory) =>
+            factory.Create(typeof(GlowBook.Web.SharedResources));
+    });
 
 
 // Meertaligheid (NL/EN)
@@ -108,6 +114,10 @@ builder.Services.AddAuthorization(options =>
 
     options.AddPolicy("CanViewReports", policy =>
         policy.RequireRole("Admin", "Owner"));
+
+    // gebruikt op CRUDacties van Customers en Services (MVC + API).
+    options.AddPolicy("RequireAdmin", policy =>
+        policy.RequireRole("Admin"));
 });
 
 // Email services (SMTP)

@@ -4,20 +4,20 @@ namespace GlowBook.Web.Models.Account;
 
 public class RegisterViewModel
 {
-    [Required, EmailAddress]
+    [Required(ErrorMessage = "Val_Required"), EmailAddress(ErrorMessage = "Val_Email")]
     [Display(Name = "E-mail")]
     public string Email { get; set; } = string.Empty;
 
-    [Required]
+    [Required(ErrorMessage = "Val_Required")]
     [Display(Name = "Naam")]
     public string DisplayName { get; set; } = string.Empty;
 
-    [Required, DataType(DataType.Password)]
+    [Required(ErrorMessage = "Val_Required"), DataType(DataType.Password)]
     [Display(Name = "Wachtwoord")]
     public string Password { get; set; } = string.Empty;
 
-    [Required, DataType(DataType.Password)]
-    [Compare("Password", ErrorMessage = "Wachtwoorden komen niet overeen")]
+    [Required(ErrorMessage = "Val_Required"), DataType(DataType.Password)]
+    [Compare("Password", ErrorMessage = "Val_PasswordsMismatch")]
     [Display(Name = "Herhaal wachtwoord")]
     public string ConfirmPassword { get; set; } = string.Empty;
 }

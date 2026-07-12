@@ -1,252 +1,535 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <root>
-  <!-- 
-    Microsoft ResX Schema 
-    
-    Version 2.0
-    
-    The primary goals of this format is to allow a simple XML format 
-    that is mostly human readable. The generation and parsing of the 
-    various data types are done through the TypeConverter classes 
-    associated with the data types.
-    
-    Example:
-    
-    ... ado.net/XML headers & schema ...
-    <resheader name="resmimetype">text/microsoft-resx</resheader>
-    <resheader name="version">2.0</resheader>
-    <resheader name="reader">System.Resources.ResXResourceReader, System.Windows.Forms, ...</resheader>
-    <resheader name="writer">System.Resources.ResXResourceWriter, System.Windows.Forms, ...</resheader>
-    <data name="Name1"><value>this is my long string</value><comment>this is a comment</comment></data>
-    <data name="Color1" type="System.Drawing.Color, System.Drawing">Blue</data>
-    <data name="Bitmap1" mimetype="application/x-microsoft.net.object.binary.base64">
-        <value>[base64 mime encoded serialized .NET Framework object]</value>
-    </data>
-    <data name="Icon1" type="System.Drawing.Icon, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
-        <value>[base64 mime encoded string representing a byte array form of the .NET Framework object]</value>
-        <comment>This is a comment</comment>
-    </data>
-                
-    There are any number of "resheader" rows that contain simple 
-    name/value pairs.
-    
-    Each data row contains a name, and value. The row also contains a 
-    type or mimetype. Type corresponds to a .NET class that support 
-    text/value conversion through the TypeConverter architecture. 
-    Classes that don't support this are serialized and stored with the 
-    mimetype set.
-    
-    The mimetype is used for serialized objects, and tells the 
-    ResXResourceReader how to depersist the object. This is currently not 
-    extensible. For a given mimetype the value must be set accordingly:
-    
-    Note - application/x-microsoft.net.object.binary.base64 is the format 
-    that the ResXResourceWriter will generate, however the reader can 
-    read any of the formats listed below.
-    
-    mimetype: application/x-microsoft.net.object.binary.base64
-    value   : The object must be serialized with 
-            : System.Runtime.Serialization.Formatters.Binary.BinaryFormatter
-            : and then encoded with base64 encoding.
-    
-    mimetype: application/x-microsoft.net.object.soap.base64
-    value   : The object must be serialized with 
-            : System.Runtime.Serialization.Formatters.Soap.SoapFormatter
-            : and then encoded with base64 encoding.
-
-    mimetype: application/x-microsoft.net.object.bytearray.base64
-    value   : The object must be serialized into a byte array 
-            : using a System.ComponentModel.TypeConverter
-            : and then encoded with base64 encoding.
-    -->
-  <xsd:schema id="root" xmlns="" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:msdata="urn:schemas-microsoft-com:xml-msdata">
-    <xsd:import namespace="http://www.w3.org/XML/1998/namespace" />
-    <xsd:element name="root" msdata:IsDataSet="true">
-      <xsd:complexType>
-        <xsd:choice maxOccurs="unbounded">
-          <xsd:element name="metadata">
-            <xsd:complexType>
-              <xsd:sequence>
-                <xsd:element name="value" type="xsd:string" minOccurs="0" />
-              </xsd:sequence>
-              <xsd:attribute name="name" use="required" type="xsd:string" />
-              <xsd:attribute name="type" type="xsd:string" />
-              <xsd:attribute name="mimetype" type="xsd:string" />
-              <xsd:attribute ref="xml:space" />
-            </xsd:complexType>
-          </xsd:element>
-          <xsd:element name="assembly">
-            <xsd:complexType>
-              <xsd:attribute name="alias" type="xsd:string" />
-              <xsd:attribute name="name" type="xsd:string" />
-            </xsd:complexType>
-          </xsd:element>
-          <xsd:element name="data">
-            <xsd:complexType>
-              <xsd:sequence>
-                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
-                <xsd:element name="comment" type="xsd:string" minOccurs="0" msdata:Ordinal="2" />
-              </xsd:sequence>
-              <xsd:attribute name="name" type="xsd:string" use="required" msdata:Ordinal="1" />
-              <xsd:attribute name="type" type="xsd:string" msdata:Ordinal="3" />
-              <xsd:attribute name="mimetype" type="xsd:string" msdata:Ordinal="4" />
-              <xsd:attribute ref="xml:space" />
-            </xsd:complexType>
-          </xsd:element>
-          <xsd:element name="resheader">
-            <xsd:complexType>
-              <xsd:sequence>
-                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
-              </xsd:sequence>
-              <xsd:attribute name="name" type="xsd:string" use="required" />
-            </xsd:complexType>
-          </xsd:element>
-        </xsd:choice>
-      </xsd:complexType>
-    </xsd:element>
-  </xsd:schema>
-  <resheader name="resmimetype">
-    <value>text/microsoft-resx</value>
-  </resheader>
-  <resheader name="version">
-    <value>2.0</value>
-  </resheader>
-  <resheader name="reader">
-    <value>System.Resources.ResXResourceReader, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </resheader>
-  <resheader name="writer">
-    <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </resheader>
-  <data name="Calendar_AllCustomers" xml:space="preserve">
-    <value>-- All customers --</value>
+	<xsd:schema id="root" xmlns="" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:msdata="urn:schemas-microsoft-com:xml-msdata">
+		<xsd:import namespace="http://www.w3.org/XML/1998/namespace" />
+		<xsd:element name="root" msdata:IsDataSet="true">
+			<xsd:complexType>
+				<xsd:choice maxOccurs="unbounded">
+					<xsd:element name="metadata">
+						<xsd:complexType>
+							<xsd:sequence>
+								<xsd:element name="value" type="xsd:string" minOccurs="0" />
+							</xsd:sequence>
+							<xsd:attribute name="name" use="required" type="xsd:string" />
+							<xsd:attribute name="type" type="xsd:string" />
+							<xsd:attribute name="mimetype" type="xsd:string" />
+							<xsd:attribute ref="xml:space" />
+						</xsd:complexType>
+					</xsd:element>
+					<xsd:element name="assembly">
+						<xsd:complexType>
+							<xsd:attribute name="alias" type="xsd:string" />
+							<xsd:attribute name="name" type="xsd:string" />
+						</xsd:complexType>
+					</xsd:element>
+					<xsd:element name="data">
+						<xsd:complexType>
+							<xsd:sequence>
+								<xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+								<xsd:element name="comment" type="xsd:string" minOccurs="0" msdata:Ordinal="2" />
+							</xsd:sequence>
+							<xsd:attribute name="name" type="xsd:string" use="required" msdata:Ordinal="1" />
+							<xsd:attribute name="type" type="xsd:string" msdata:Ordinal="3" />
+							<xsd:attribute name="mimetype" type="xsd:string" msdata:Ordinal="4" />
+							<xsd:attribute ref="xml:space" />
+						</xsd:complexType>
+					</xsd:element>
+					<xsd:element name="resheader">
+						<xsd:complexType>
+							<xsd:sequence>
+								<xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+							</xsd:sequence>
+							<xsd:attribute name="name" type="xsd:string" use="required" />
+						</xsd:complexType>
+					</xsd:element>
+				</xsd:choice>
+			</xsd:complexType>
+		</xsd:element>
+	</xsd:schema>
+	<resheader name="resmimetype">
+		<value>text/microsoft-resx</value>
+	</resheader>
+	<resheader name="version">
+		<value>2.0</value>
+	</resheader>
+	<resheader name="reader">
+		<value>System.Resources.ResXResourceReader, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+	</resheader>
+	<resheader name="writer">
+		<value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+	</resheader>
+	<data name="Account_BackToLogin" xml:space="preserve">
+    <value>Back to login</value>
   </data>
-  <data name="Calendar_AllStaff" xml:space="preserve">
-    <value>-- All staff --</value>
+	<data name="Account_ConfirmPassword" xml:space="preserve">
+    <value>Confirm password</value>
   </data>
-  <data name="Calendar_AllStatuses" xml:space="preserve">
-    <value>-- All statuses --</value>
+	<data name="Account_DisplayName" xml:space="preserve">
+    <value>Display name</value>
   </data>
-  <data name="Calendar_Filter" xml:space="preserve">
+	<data name="Account_Email" xml:space="preserve">
+    <value>Email</value>
+  </data>
+	<data name="Account_LoginButton" xml:space="preserve">
+    <value>Sign in</value>
+  </data>
+	<data name="Account_LoginTitle" xml:space="preserve">
+    <value>Sign in</value>
+  </data>
+	<data name="Account_Password" xml:space="preserve">
+    <value>Password</value>
+  </data>
+	<data name="Account_RegisterButton" xml:space="preserve">
+    <value>Register</value>
+  </data>
+	<data name="Account_RegisterLink" xml:space="preserve">
+    <value>Register</value>
+  </data>
+	<data name="Account_RegisterTitle" xml:space="preserve">
+    <value>Register</value>
+  </data>
+	<data name="Account_RememberMe" xml:space="preserve">
+    <value>Remember me</value>
+  </data>
+	<data name="Action_Delete" xml:space="preserve">
+    <value>Delete</value>
+  </data>
+	<data name="Action_Details" xml:space="preserve">
+    <value>Details</value>
+  </data>
+	<data name="Action_Edit" xml:space="preserve">
+    <value>Edit</value>
+  </data>
+	<data name="Action_Filter" xml:space="preserve">
     <value>Filter</value>
   </data>
-  <data name="Calendar_NewAppointment" xml:space="preserve">
-    <value>New appointment</value>
-  </data>
-  <data name="Calendar_NoResults" xml:space="preserve">
-    <value>There are no appointments for the current filter.</value>
-  </data>
-  <data name="Calendar_Reset" xml:space="preserve">
+	<data name="Action_Reset" xml:space="preserve">
     <value>Reset</value>
   </data>
-  <data name="Calendar_Subtitle" xml:space="preserve">
-    <value>Overview of all scheduled appointments.</value>
+	<data name="Action_Search" xml:space="preserve">
+    <value>Search</value>
   </data>
-  <data name="Calendar_Title" xml:space="preserve">
-    <value>Calendar</value>
-  </data>
-  <data name="Lang_EN" xml:space="preserve">
-    <value>EN</value>
-  </data>
-  <data name="Lang_NL" xml:space="preserve">
-    <value>NL</value>
-  </data>
-  <data name="Nav_Calendar" xml:space="preserve">
-    <value>Calendar</value>
-  </data>
-  <data name="Nav_Customers" xml:space="preserve">
-    <value>Customers</value>
-  </data>
-  <data name="Nav_Home" xml:space="preserve">
-    <value>Home</value>
-  </data>
-  <data name="Nav_Services" xml:space="preserve">
-    <value>Services</value>
-  </data>
-  <data name="AppTitle" xml:space="preserve">
+	<data name="AppTitle" xml:space="preserve">
     <value>Glowbook</value>
   </data>
-  <data name="Calendar_ColumnDate" xml:space="preserve">
+	<data name="Appointments_ChooseCustomer" xml:space="preserve">
+    <value>-- Choose a customer --</value>
+  </data>
+	<data name="Appointments_ChooseService" xml:space="preserve">
+    <value>-- Choose a service --</value>
+  </data>
+	<data name="Appointments_ChooseStaff" xml:space="preserve">
+    <value>-- Choose a staff member --</value>
+  </data>
+	<data name="Appointments_DeleteConfirm" xml:space="preserve">
+    <value>Are you sure you want to permanently delete this appointment?</value>
+  </data>
+	<data name="Appointments_DeleteTitle" xml:space="preserve">
+    <value>Delete appointment</value>
+  </data>
+	<data name="Appointments_DetailsTitle" xml:space="preserve">
+    <value>Appointment details</value>
+  </data>
+	<data name="Appointments_EditTitle" xml:space="preserve">
+    <value>Edit appointment</value>
+  </data>
+	<data name="Appointments_NewSubtitle" xml:space="preserve">
+    <value>Create a new appointment for a customer.</value>
+  </data>
+	<data name="Calendar_AllCustomers" xml:space="preserve">
+    <value>-- All customers --</value>
+  </data>
+	<data name="Calendar_AllStaff" xml:space="preserve">
+    <value>-- All staff --</value>
+  </data>
+	<data name="Calendar_AllStatuses" xml:space="preserve">
+    <value>-- All statuses --</value>
+  </data>
+	<data name="Calendar_ColumnCustomer" xml:space="preserve">
+    <value>Customer</value>
+  </data>
+	<data name="Calendar_ColumnDate" xml:space="preserve">
     <value>Date</value>
   </data>
-  <data name="Calendar_ColumnStart" xml:space="preserve">
-    <value>Start</value>
-  </data>
-  <data name="Calendar_ColumnEnd" xml:space="preserve">
+	<data name="Calendar_ColumnEnd" xml:space="preserve">
     <value>End</value>
   </data>
-  <data name="Calendar_ColumnCustomer" xml:space="preserve">
-    <value>Customer</value>
-  </data>
-  <data name="Calendar_ColumnStaff" xml:space="preserve">
-    <value>Staff</value>
-  </data>
-  <data name="Calendar_ColumnService" xml:space="preserve">
+	<data name="Calendar_ColumnService" xml:space="preserve">
     <value>Service</value>
   </data>
-  <data name="Calendar_ColumnStatus" xml:space="preserve">
+	<data name="Calendar_ColumnStaff" xml:space="preserve">
+    <value>Staff</value>
+  </data>
+	<data name="Calendar_ColumnStart" xml:space="preserve">
+    <value>Start</value>
+  </data>
+	<data name="Calendar_ColumnStatus" xml:space="preserve">
     <value>Status</value>
   </data>
-  <data name="Nav_Login" xml:space="preserve">
-    <value>Login</value>
+	<data name="Calendar_Filter" xml:space="preserve">
+    <value>Filter</value>
   </data>
-  <data name="Nav_Logout" xml:space="preserve">
-    <value>Logout</value>
+	<data name="Calendar_Filter_Customer" xml:space="preserve">
+    <value>Customer</value>
   </data>
-  <data name="Calendar_Filter_From" xml:space="preserve">
+	<data name="Calendar_Filter_From" xml:space="preserve">
     <value>From</value>
   </data>
-  <data name="Calendar_Filter_To" xml:space="preserve">
+	<data name="Calendar_Filter_Staff" xml:space="preserve">
+    <value>Staff</value>
+  </data>
+	<data name="Calendar_Filter_Status" xml:space="preserve">
+    <value>Status</value>
+  </data>
+	<data name="Calendar_Filter_To" xml:space="preserve">
     <value>To</value>
   </data>
-  <data name="Calendar_Filter_Customer" xml:space="preserve">
-    <value>Customer</value>
+	<data name="Calendar_NewAppointment" xml:space="preserve">
+    <value>New appointment</value>
   </data>
-  <data name="Calendar_Filter_Staff" xml:space="preserve">
-    <value>Staff</value>
+	<data name="Calendar_NoResults" xml:space="preserve">
+    <value>There are no appointments for the current filter.</value>
   </data>
-  <data name="Calendar_Filter_Status" xml:space="preserve">
-    <value>Status</value>
+	<data name="Calendar_Reset" xml:space="preserve">
+    <value>Reset</value>
   </data>
-  <data name="Error_Title" xml:space="preserve">
-    <value>Something went wrong</value>
-  </data>
-  <data name="Error_Message" xml:space="preserve">
-    <value>An unexpected error occurred. Please try again later.</value>
-  </data>
-  <data name="Error_BackToHome" xml:space="preserve">
-    <value>Back to home page</value>
-  </data>
-  <data name="Lang_FR" xml:space="preserve">
-    <value>FR</value>
-  </data>
-  <data name="Nav_Staff" xml:space="preserve">
-    <value>Staff</value>
-  </data>
-  <data name="Nav_Admin" xml:space="preserve">
-    <value>Admin</value>
-  </data>
-  <data name="Calendar_SortBy" xml:space="preserve">
+	<data name="Calendar_SortBy" xml:space="preserve">
     <value>Sort by</value>
   </data>
-  <data name="Calendar_Sort_DateAsc" xml:space="preserve">
-    <value>Date (oldest first)</value>
-  </data>
-  <data name="Calendar_Sort_DateDesc" xml:space="preserve">
-    <value>Date (newest first)</value>
-  </data>
-  <data name="Calendar_Sort_Customer" xml:space="preserve">
+	<data name="Calendar_Sort_Customer" xml:space="preserve">
     <value>Customer</value>
   </data>
-  <data name="Calendar_Sort_Staff" xml:space="preserve">
+	<data name="Calendar_Sort_DateAsc" xml:space="preserve">
+    <value>Date (oldest first)</value>
+  </data>
+	<data name="Calendar_Sort_DateDesc" xml:space="preserve">
+    <value>Date (newest first)</value>
+  </data>
+	<data name="Calendar_Sort_Staff" xml:space="preserve">
     <value>Staff</value>
   </data>
-  <data name="Calendar_Sort_Status" xml:space="preserve">
+	<data name="Calendar_Sort_Status" xml:space="preserve">
     <value>Status</value>
   </data>
-  <data name="Paging_Previous" xml:space="preserve">
+	<data name="Calendar_Subtitle" xml:space="preserve">
+    <value>Overview of all scheduled appointments.</value>
+  </data>
+	<data name="Calendar_Title" xml:space="preserve">
+    <value>Calendar</value>
+  </data>
+	<data name="Col_Actions" xml:space="preserve">
+    <value>Actions</value>
+  </data>
+	<data name="Col_Active" xml:space="preserve">
+    <value>Active</value>
+  </data>
+	<data name="Col_Category" xml:space="preserve">
+    <value>Category</value>
+  </data>
+	<data name="Col_Confirmed" xml:space="preserve">
+    <value>Confirmed</value>
+  </data>
+	<data name="Col_Description" xml:space="preserve">
+    <value>Description</value>
+  </data>
+	<data name="Col_Duration" xml:space="preserve">
+    <value>Duration (min)</value>
+  </data>
+	<data name="Col_Email" xml:space="preserve">
+    <value>Email</value>
+  </data>
+	<data name="Col_Name" xml:space="preserve">
+    <value>Name</value>
+  </data>
+	<data name="Col_Notes" xml:space="preserve">
+    <value>Notes</value>
+  </data>
+	<data name="Col_Phone" xml:space="preserve">
+    <value>Phone</value>
+  </data>
+	<data name="Col_Price" xml:space="preserve">
+    <value>Price (€)</value>
+  </data>
+	<data name="Col_Roles" xml:space="preserve">
+    <value>Roles</value>
+  </data>
+	<data name="Common_BackToList" xml:space="preserve">
+    <value>Back to list</value>
+  </data>
+	<data name="Common_Cancel" xml:space="preserve">
+    <value>Cancel</value>
+  </data>
+	<data name="Common_New" xml:space="preserve">
+    <value>New</value>
+  </data>
+	<data name="Common_No" xml:space="preserve">
+    <value>No</value>
+  </data>
+	<data name="Common_Save" xml:space="preserve">
+    <value>Save</value>
+  </data>
+	<data name="Common_Yes" xml:space="preserve">
+    <value>Yes</value>
+  </data>
+	<data name="Customers_DeleteConfirm" xml:space="preserve">
+    <value>Are you sure you want to permanently delete this customer?</value>
+  </data>
+	<data name="Customers_DeleteTitle" xml:space="preserve">
+    <value>Delete customer</value>
+  </data>
+	<data name="Customers_DetailsTitle" xml:space="preserve">
+    <value>Customer details</value>
+  </data>
+	<data name="Customers_EditTitle" xml:space="preserve">
+    <value>Edit customer</value>
+  </data>
+	<data name="Customers_New" xml:space="preserve">
+    <value>New customer</value>
+  </data>
+	<data name="Customers_SearchPlaceholder" xml:space="preserve">
+    <value>Search customer...</value>
+  </data>
+	<data name="Customers_Subtitle" xml:space="preserve">
+    <value>Overview of all active customers.</value>
+  </data>
+	<data name="Customers_Title" xml:space="preserve">
+    <value>Customers</value>
+  </data>
+	<data name="Error_BackToHome" xml:space="preserve">
+    <value>Back to home page</value>
+  </data>
+	<data name="Error_Message" xml:space="preserve">
+    <value>An unexpected error occurred. Please try again later.</value>
+  </data>
+	<data name="Error_Title" xml:space="preserve">
+    <value>Something went wrong</value>
+  </data>
+	<data name="Field_Category" xml:space="preserve">
+    <value>Category</value>
+  </data>
+	<data name="Field_ConfirmPassword" xml:space="preserve">
+    <value>Repeat password</value>
+  </data>
+	<data name="Field_Customer" xml:space="preserve">
+    <value>Customer</value>
+  </data>
+	<data name="Field_Date" xml:space="preserve">
+    <value>Date</value>
+  </data>
+	<data name="Field_Description" xml:space="preserve">
+    <value>Description</value>
+  </data>
+	<data name="Field_DisplayName" xml:space="preserve">
+    <value>Name</value>
+  </data>
+	<data name="Field_Duration" xml:space="preserve">
+    <value>Duration (min)</value>
+  </data>
+	<data name="Field_Email" xml:space="preserve">
+    <value>Email</value>
+  </data>
+	<data name="Field_End" xml:space="preserve">
+    <value>End</value>
+  </data>
+	<data name="Field_Name" xml:space="preserve">
+    <value>Name</value>
+  </data>
+	<data name="Field_Notes" xml:space="preserve">
+    <value>Notes</value>
+  </data>
+	<data name="Field_Password" xml:space="preserve">
+    <value>Password</value>
+  </data>
+	<data name="Field_Phone" xml:space="preserve">
+    <value>Phone</value>
+  </data>
+	<data name="Field_Price" xml:space="preserve">
+    <value>Price (€)</value>
+  </data>
+	<data name="Field_RememberMe" xml:space="preserve">
+    <value>Remember me</value>
+  </data>
+	<data name="Field_Service" xml:space="preserve">
+    <value>Service</value>
+  </data>
+	<data name="Field_Staff" xml:space="preserve">
+    <value>Staff</value>
+  </data>
+	<data name="Field_Start" xml:space="preserve">
+    <value>Start</value>
+  </data>
+	<data name="Field_StartTime" xml:space="preserve">
+    <value>Start time</value>
+  </data>
+	<data name="Field_Status" xml:space="preserve">
+    <value>Status</value>
+  </data>
+	<data name="Home_Feature1" xml:space="preserve">
+    <value>View and filter appointments by day or staff member.</value>
+  </data>
+	<data name="Home_Feature2" xml:space="preserve">
+    <value>Manage customer data and contact information.</value>
+  </data>
+	<data name="Home_Feature3" xml:space="preserve">
+    <value>Use the mobile app to work from your smartphone.</value>
+  </data>
+	<data name="Home_GoToAppointments" xml:space="preserve">
+    <value>Go to appointments</value>
+  </data>
+	<data name="Home_GoToCustomers" xml:space="preserve">
+    <value>Go to customers</value>
+  </data>
+	<data name="Home_Intro" xml:space="preserve">
+    <value>GlowBook helps you manage your beauty salon's appointments, customers and staff in a clear overview.</value>
+  </data>
+	<data name="Home_QuickActions" xml:space="preserve">
+    <value>Quick actions</value>
+  </data>
+	<data name="Home_Welcome" xml:space="preserve">
+    <value>Welcome to GlowBook</value>
+  </data>
+	<data name="Lang_EN" xml:space="preserve">
+    <value>EN</value>
+  </data>
+	<data name="Lang_FR" xml:space="preserve">
+    <value>FR</value>
+  </data>
+	<data name="Lang_NL" xml:space="preserve">
+    <value>NL</value>
+  </data>
+	<data name="Nav_Admin" xml:space="preserve">
+    <value>Admin</value>
+  </data>
+	<data name="Nav_Calendar" xml:space="preserve">
+    <value>Calendar</value>
+  </data>
+	<data name="Nav_Customers" xml:space="preserve">
+    <value>Customers</value>
+  </data>
+	<data name="Nav_Home" xml:space="preserve">
+    <value>Home</value>
+  </data>
+	<data name="Nav_Login" xml:space="preserve">
+    <value>Login</value>
+  </data>
+	<data name="Nav_Logout" xml:space="preserve">
+    <value>Logout</value>
+  </data>
+	<data name="Nav_Services" xml:space="preserve">
+    <value>Services</value>
+  </data>
+	<data name="Nav_Staff" xml:space="preserve">
+    <value>Staff</value>
+  </data>
+	<data name="Paging_Next" xml:space="preserve">
+    <value>Next</value>
+  </data>
+	<data name="Paging_Previous" xml:space="preserve">
     <value>Previous</value>
   </data>
-  <data name="Paging_Next" xml:space="preserve">
-    <value>Next</value>
+	<data name="Services_ChooseCategory" xml:space="preserve">
+    <value>-- Choose a category --</value>
+  </data>
+	<data name="Services_DeleteConfirm" xml:space="preserve">
+    <value>Are you sure you want to permanently delete this service?</value>
+  </data>
+	<data name="Services_DeleteTitle" xml:space="preserve">
+    <value>Delete service</value>
+  </data>
+	<data name="Services_DetailsTitle" xml:space="preserve">
+    <value>Service details</value>
+  </data>
+	<data name="Services_EditTitle" xml:space="preserve">
+    <value>Edit service</value>
+  </data>
+	<data name="Services_New" xml:space="preserve">
+    <value>New service</value>
+  </data>
+	<data name="Services_NoDescription" xml:space="preserve">
+    <value>No description provided.</value>
+  </data>
+	<data name="Services_SearchPlaceholder" xml:space="preserve">
+    <value>Search service...</value>
+  </data>
+	<data name="Services_Subtitle" xml:space="preserve">
+    <value>Overview of all treatments with duration, price and category.</value>
+  </data>
+	<data name="Services_Title" xml:space="preserve">
+    <value>Services / treatments</value>
+  </data>
+	<data name="Sort_NameAsc" xml:space="preserve">
+    <value>Name A-Z</value>
+  </data>
+	<data name="Sort_NameDesc" xml:space="preserve">
+    <value>Name Z-A</value>
+  </data>
+	<data name="Staff_DeleteConfirm" xml:space="preserve">
+    <value>Are you sure you want to delete this staff member?</value>
+  </data>
+	<data name="Staff_DeleteTitle" xml:space="preserve">
+    <value>Delete staff member</value>
+  </data>
+	<data name="Staff_EditSubtitle" xml:space="preserve">
+    <value>Edit the staff member's details.</value>
+  </data>
+	<data name="Staff_EditTitle" xml:space="preserve">
+    <value>Edit staff member</value>
+  </data>
+	<data name="Staff_NewSubtitle" xml:space="preserve">
+    <value>Add a new staff member.</value>
+  </data>
+	<data name="Staff_NewTitle" xml:space="preserve">
+    <value>New staff member</value>
+  </data>
+	<data name="Staff_None" xml:space="preserve">
+    <value>There are no staff for the current filter.</value>
+  </data>
+	<data name="Staff_SearchPlaceholder" xml:space="preserve">
+    <value>Search by name or email...</value>
+  </data>
+	<data name="Staff_Subtitle" xml:space="preserve">
+    <value>Overview of all staff.</value>
+  </data>
+	<data name="Staff_Title" xml:space="preserve">
+    <value>Staff</value>
+  </data>
+	<data name="Users_Block" xml:space="preserve">
+    <value>Block</value>
+  </data>
+	<data name="Users_EditRolesTitle" xml:space="preserve">
+    <value>Edit roles</value>
+  </data>
+	<data name="Users_Roles" xml:space="preserve">
+    <value>Roles</value>
+  </data>
+	<data name="Users_Subtitle" xml:space="preserve">
+    <value>Manage user roles and access.</value>
+  </data>
+	<data name="Users_Title" xml:space="preserve">
+    <value>User management</value>
+  </data>
+	<data name="Users_Unblock" xml:space="preserve">
+    <value>Unblock</value>
+  </data>
+	<data name="Val_Email" xml:space="preserve">
+    <value>Please enter a valid email address.</value>
+  </data>
+	<data name="Val_PasswordsMismatch" xml:space="preserve">
+    <value>The passwords do not match.</value>
+  </data>
+	<data name="Val_Phone" xml:space="preserve">
+    <value>Please enter a valid phone number.</value>
+  </data>
+	<data name="Val_Range" xml:space="preserve">
+    <value>Value must be between {1} and {2}.</value>
+  </data>
+	<data name="Val_Required" xml:space="preserve">
+    <value>This field is required.</value>
+  </data>
+	<data name="Val_StringLength" xml:space="preserve">
+    <value>At most {1} characters allowed.</value>
+  </data>
+	<data name="Customers_NoResults" xml:space="preserve">
+    <value>No customers found for the current search.</value>
   </data>
 </root>

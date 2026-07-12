@@ -19,6 +19,23 @@ public class CustomersController : Controller
 
     public async Task<IActionResult> Index(string? q = null, string sort = "name")
     {
+        ViewBag.Q = q;
+        ViewBag.Sort = sort;
+        return View(await BuildCustomerQuery(q, sort).ToListAsync());
+    }
+
+    // AJAX: geeft enkel tabelpartial terug, zodat live zoeken/sorteren
+    // gebeurt zonder volledige pagina herladen
+    public async Task<IActionResult> ListPartial(string? q = null, string sort = "name")
+    {
+        ViewBag.Q = q;
+        ViewBag.Sort = sort;
+        return PartialView("_CustomersList", await BuildCustomerQuery(q, sort).ToListAsync());
+    }
+
+    // Herbruikbare query voor zowel volledige Indexview als de AJAX-partial
+    private IQueryable<Customer> BuildCustomerQuery(string? q, string sort)
+    {
         var query = _ctx.Customers.AsQueryable();
 
         if (!string.IsNullOrWhiteSpace(q))
@@ -32,10 +49,7 @@ public class CustomersController : Controller
             _ => query.OrderBy(c => c.Name)
         };
 
-        ViewBag.Q = q;
-        ViewBag.Sort = sort;
-
-        return View(await query.ToListAsync());
+        return query;
     }
 
 
