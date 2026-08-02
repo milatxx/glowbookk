@@ -1,0 +1,47 @@
+﻿@model List<GlowBook.Model.Entities.Customer>
+@using Microsoft.Extensions.Localization
+@inject IStringLocalizer<GlowBook.Web.SharedResources> SR
+
+@if (!Model.Any())
+{
+    <div class="alert alert-info mb-0">
+        @SR["Customers_NoResults"]
+    </div>
+}
+else
+{
+    <table class="table table-hover align-middle mb-0 gb-table">
+        <thead>
+            <tr>
+                <th>@SR["Col_Name"]</th>
+                <th>@SR["Col_Phone"]</th>
+                <th>@SR["Col_Email"]</th>
+                <th style="width: 220px;">@SR["Col_Actions"]</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var c in Model)
+            {
+                <tr>
+                    <td>@c.Name</td>
+                    <td>@c.Phone</td>
+                    <td>@c.Email</td>
+                    <td>
+                        <a asp-action="Details" asp-route-id="@c.Id" class="btn btn-sm btn-outline-secondary me-1">
+                            @SR["Action_Details"]
+                        </a>
+                        @if (User.IsInRole("Admin"))
+                        {
+                            <a asp-action="Edit" asp-route-id="@c.Id" class="btn btn-sm btn-outline-primary me-1">
+                                @SR["Action_Edit"]
+                            </a>
+                            <a asp-action="Delete" asp-route-id="@c.Id" class="btn btn-sm btn-outline-danger">
+                                @SR["Action_Delete"]
+                            </a>
+                        }
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+}

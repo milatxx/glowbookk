@@ -1,35 +1,33 @@
-﻿@model GlowBook.Model.Entities.Customer 
+﻿@model GlowBook.Model.Entities.Customer
+@using Microsoft.Extensions.Localization
+@inject IStringLocalizer<GlowBook.Web.SharedResources> SR
 
 @{
-    ViewData["Title"] = "Klantdetails";
+    ViewData["Title"] = SR["Customers_DetailsTitle"].Value;
 }
 
 <div class="gb-card mt-3">
-    <div class="gb-card-title">Klantdetails</div>
+    <div class="gb-card-title">@SR["Customers_DetailsTitle"]</div>
 
     <dl class="row mb-0">
-        <dt class="col-sm-2">Naam</dt>
+        <dt class="col-sm-2">@SR["Col_Name"]</dt>
         <dd class="col-sm-10">@Model.Name</dd>
 
-        <dt class="col-sm-2">Telefoon</dt>
+        <dt class="col-sm-2">@SR["Col_Phone"]</dt>
         <dd class="col-sm-10">@Model.Phone</dd>
 
-        <dt class="col-sm-2">E-mail</dt>
+        <dt class="col-sm-2">@SR["Col_Email"]</dt>
         <dd class="col-sm-10">@Model.Email</dd>
 
-        <dt class="col-sm-2">Notities</dt>
+        <dt class="col-sm-2">@SR["Col_Notes"]</dt>
         <dd class="col-sm-10">@Model.Notes</dd>
     </dl>
 
     <div class="mt-3 d-flex justify-content-between">
-        <a asp-action="Index" class="btn btn-outline-secondary">
-            Terug naar lijst
-        </a>
+        <a asp-action="Index" class="btn btn-outline-secondary">@SR["Common_BackToList"]</a>
         @if (User.IsInRole("Admin"))
         {
-            <a asp-action="Edit" asp-route-id="@Model.Id" class="btn-gb">
-                Bewerken
-            </a>
+            <a asp-action="Edit" asp-route-id="@Model.Id" class="btn-gb">@SR["Action_Edit"]</a>
         }
     </div>
 </div>

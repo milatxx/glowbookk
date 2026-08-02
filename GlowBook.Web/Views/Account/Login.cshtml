@@ -1,41 +1,42 @@
 ﻿@model GlowBook.Web.Models.Account.LoginViewModel
+@using Microsoft.Extensions.Localization
+@inject IStringLocalizer<GlowBook.Web.SharedResources> SR
 
 @{
-    ViewData["Title"] = "Aanmelden";
+    ViewData["Title"] = SR["Account_LoginTitle"].Value;
 }
 
 <div class="gb-card mt-3" style="max-width: 400px; margin-inline: auto;">
-    <div class="gb-card-title">Aanmelden</div>
+    <div class="gb-card-title">@SR["Account_LoginTitle"]</div>
 
     @if (ViewBag.BlockedMessage != null)
     {
         <div class="alert alert-danger">@ViewBag.BlockedMessage</div>
     }
 
-
     <form asp-action="Login" method="post">
         <div asp-validation-summary="ModelOnly" class="text-danger"></div>
 
         <div class="mb-3">
-            <label asp-for="Email" class="form-label"></label>
+            <label asp-for="Email" class="form-label">@SR["Account_Email"]</label>
             <input asp-for="Email" class="form-control" />
             <span asp-validation-for="Email" class="text-danger"></span>
         </div>
 
         <div class="mb-3">
-            <label asp-for="Password" class="form-label"></label>
+            <label asp-for="Password" class="form-label">@SR["Account_Password"]</label>
             <input asp-for="Password" class="form-control" />
             <span asp-validation-for="Password" class="text-danger"></span>
         </div>
 
         <div class="form-check mb-3">
             <input asp-for="RememberMe" class="form-check-input" />
-            <label asp-for="RememberMe" class="form-check-label"></label>
+            <label asp-for="RememberMe" class="form-check-label">@SR["Account_RememberMe"]</label>
         </div>
 
         <div class="d-flex justify-content-between">
-            <a asp-action="Register" class="btn btn-outline-secondary">Registreren</a>
-            <button type="submit" class="btn-gb">Aanmelden</button>
+            <a asp-action="Register" class="btn btn-outline-secondary">@SR["Account_RegisterLink"]</a>
+            <button type="submit" class="btn-gb">@SR["Account_LoginButton"]</button>
         </div>
     </form>
 </div>
@@ -43,4 +44,3 @@
 @section Scripts {
     <partial name="_ValidationScriptsPartial" />
 }
-

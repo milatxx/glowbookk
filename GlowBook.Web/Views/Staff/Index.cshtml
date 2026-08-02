@@ -1,43 +1,44 @@
 ﻿@model List<GlowBook.Model.Entities.Staff>
+@using Microsoft.Extensions.Localization
+@inject IStringLocalizer<GlowBook.Web.SharedResources> SR
 
 @{
-    ViewData["Title"] = "Medewerkers";
+    ViewData["Title"] = SR["Staff_Title"].Value;
     var q = ViewBag.Q as string;
 }
 
 <div class="gb-card mt-3">
     <div class="d-flex justify-content-between align-items-center mb-2">
-        <div class="gb-card-title">Medewerkers</div>
+        <div class="gb-card-title">@SR["Staff_Title"]</div>
 
         @if (User.IsInRole("Admin"))
         {
-            <a asp-action="Create" class="btn-gb">Nieuw</a>
+            <a asp-action="Create" class="btn-gb">@SR["Common_New"]</a>
         }
     </div>
 
     <p class="text-muted mb-2">
-        Overzicht van alle medewerkers.
+        @SR["Staff_Subtitle"]
     </p>
 
     <form method="get" class="row g-2 mb-3">
         <div class="col-md-8">
-            <input class="form-control" name="q" value="@q" placeholder="Zoek op naam of email..." />
+            <input class="form-control" name="q" value="@q" placeholder="@SR["Staff_SearchPlaceholder"]" />
         </div>
 
         <div class="col-md-4 text-end">
-            <button class="btn-gb" type="submit">Zoek</button>
-            <a class="btn btn-outline-secondary ms-2" asp-action="Index">Reset</a>
+            <button class="btn-gb" type="submit">@SR["Action_Search"]</button>
+            <a class="btn btn-outline-secondary ms-2" asp-action="Index">@SR["Action_Reset"]</a>
         </div>
-
     </form>
 
     <div class="gb-table-wrapper">
         <table class="table table-hover align-middle mb-0 gb-table">
             <thead>
                 <tr>
-                    <th>Naam</th>
-                    <th>Email</th>
-                    <th style="width: 220px;">Acties</th>
+                    <th>@SR["Col_Name"]</th>
+                    <th>@SR["Col_Email"]</th>
+                    <th style="width: 220px;">@SR["Col_Actions"]</th>
                 </tr>
             </thead>
             <tbody>
@@ -46,7 +47,7 @@
                     <tr>
                         <td colspan="3">
                             <div class="alert alert-info mb-0">
-                                Er zijn geen medewerkers voor de huidige filter.
+                                @SR["Staff_None"]
                             </div>
                         </td>
                     </tr>
@@ -62,10 +63,10 @@
                                 @if (User.IsInRole("Admin"))
                                 {
                                     <a asp-action="Edit" asp-route-id="@s.Id" class="btn btn-sm btn-outline-secondary me-1">
-                                        Bewerk
+                                        @SR["Action_Edit"]
                                     </a>
                                     <a asp-action="Delete" asp-route-id="@s.Id" class="btn btn-sm btn-outline-danger">
-                                        Verwijder
+                                        @SR["Action_Delete"]
                                     </a>
                                 }
                                 else
@@ -77,7 +78,6 @@
                     }
                 }
             </tbody>
-
         </table>
     </div>
 </div>

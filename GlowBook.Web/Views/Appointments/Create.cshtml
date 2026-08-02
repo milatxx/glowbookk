@@ -1,70 +1,72 @@
 ﻿@model GlowBook.Web.Models.AppointmentEditViewModel
+@using Microsoft.Extensions.Localization
+@inject IStringLocalizer<GlowBook.Web.SharedResources> SR
 
 @{
-    ViewData["Title"] = "Nieuwe afspraak";
+    ViewData["Title"] = SR["Calendar_NewAppointment"].Value;
 }
 
 <div class="container mt-4">
     <div class="gb-card">
-        <h2 class="gb-card-title">Nieuwe afspraak</h2>
-        <p class="mb-4 text-muted">Maak een nieuwe afspraak voor een klant.</p>
+        <h2 class="gb-card-title">@SR["Calendar_NewAppointment"]</h2>
+        <p class="mb-4 text-muted">@SR["Appointments_NewSubtitle"]</p>
 
         <form asp-action="Create" method="post">
             <div asp-validation-summary="ModelOnly" class="text-danger mb-3"></div>
 
             <div class="mb-3">
-                <label asp-for="CustomerId" class="form-label"></label>
+                <label asp-for="CustomerId" class="form-label">@SR["Field_Customer"]</label>
                 <select asp-for="CustomerId" asp-items="Model.Customers" class="form-select">
-                    <option value="">-- Kies een klant --</option>
+                    <option value="">@SR["Appointments_ChooseCustomer"]</option>
                 </select>
                 <span asp-validation-for="CustomerId" class="text-danger"></span>
             </div>
 
             <div class="mb-3">
-                <label asp-for="StaffId" class="form-label"></label>
+                <label asp-for="StaffId" class="form-label">@SR["Field_Staff"]</label>
                 <select asp-for="StaffId" asp-items="Model.Staff" class="form-select">
-                    <option value="">-- Kies een medewerker --</option>
+                    <option value="">@SR["Appointments_ChooseStaff"]</option>
                 </select>
                 <span asp-validation-for="StaffId" class="text-danger"></span>
             </div>
 
             <div class="mb-3">
-                <label asp-for="ServiceId" class="form-label"></label>
+                <label asp-for="ServiceId" class="form-label">@SR["Field_Service"]</label>
                 <select asp-for="ServiceId" asp-items="Model.Services" class="form-select">
-                    <option value="">-- Kies een dienst --</option>
+                    <option value="">@SR["Appointments_ChooseService"]</option>
                 </select>
                 <span asp-validation-for="ServiceId" class="text-danger"></span>
             </div>
 
             <div class="row">
                 <div class="col-md-4 mb-3">
-                    <label asp-for="Date" class="form-label"></label>
+                    <label asp-for="Date" class="form-label">@SR["Field_Date"]</label>
                     <input asp-for="Date" class="form-control" />
                     <span asp-validation-for="Date" class="text-danger"></span>
                 </div>
 
                 <div class="col-md-4 mb-3">
-                    <label asp-for="StartTime" class="form-label"></label>
+                    <label asp-for="StartTime" class="form-label">@SR["Field_StartTime"]</label>
                     <input asp-for="StartTime" class="form-control" />
                     <span asp-validation-for="StartTime" class="text-danger"></span>
                 </div>
 
                 <div class="col-md-4 mb-3">
-                    <label asp-for="DurationMinutes" class="form-label"></label>
+                    <label asp-for="DurationMinutes" class="form-label">@SR["Field_Duration"]</label>
                     <input asp-for="DurationMinutes" class="form-control" />
                     <span asp-validation-for="DurationMinutes" class="text-danger"></span>
                 </div>
             </div>
 
             <div class="mb-4">
-                <label asp-for="Status" class="form-label"></label>
+                <label asp-for="Status" class="form-label">@SR["Field_Status"]</label>
                 <input asp-for="Status" class="form-control" />
                 <span asp-validation-for="Status" class="text-danger"></span>
             </div>
 
             <div class="d-flex justify-content-between">
-                <a asp-action="Index" class="btn btn-outline-secondary">Annuleren</a>
-                <button type="submit" class="btn-gb">Opslaan</button>
+                <a asp-action="Index" class="btn btn-outline-secondary">@SR["Common_Cancel"]</a>
+                <button type="submit" class="btn-gb">@SR["Common_Save"]</button>
             </div>
         </form>
     </div>

@@ -1,31 +1,34 @@
-﻿@{
-    ViewData["Title"] = "Home";
+﻿@using Microsoft.Extensions.Localization
+@inject IStringLocalizer<GlowBook.Web.SharedResources> SR
+
+@{
+    ViewData["Title"] = SR["Nav_Home"].Value;
 }
 
 <div class="row mt-3">
     <div class="col-md-8">
         <div class="gb-card">
-            <div class="gb-card-title">Welkom bij GlowBook</div>
+            <div class="gb-card-title">@SR["Home_Welcome"]</div>
             <p class="text-muted">
-                GlowBook helpt je om afspraken, klanten en medewerkers van je schoonheidssalon overzichtelijk te beheren.
+                @SR["Home_Intro"]
             </p>
             <ul>
-                <li>Bekijk en filter afspraken per dag of medewerker.</li>
-                <li>Beheer klantggevens en contactinformatie.</li>
-                <li>Gebruik de mobiele app om vanop je smartphone te werken.</li>
+                <li>@SR["Home_Feature1"]</li>
+                <li>@SR["Home_Feature2"]</li>
+                <li>@SR["Home_Feature3"]</li>
             </ul>
         </div>
     </div>
 
     <div class="col-md-4">
         <div class="gb-card">
-            <div class="gb-card-title">Snelle acties</div>
+            <div class="gb-card-title">@SR["Home_QuickActions"]</div>
             <div class="d-grid gap-2">
                 <a asp-controller="Appointments" asp-action="Index" class="btn-gb">
-                    Naar afspraken
+                    @SR["Home_GoToAppointments"]
                 </a>
                 <a asp-controller="Customers" asp-action="Index" class="btn btn-outline-secondary">
-                    Naar klanten
+                    @SR["Home_GoToCustomers"]
                 </a>
             </div>
         </div>

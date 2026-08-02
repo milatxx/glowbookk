@@ -1,28 +1,30 @@
 ﻿@model List<GlowBook.Web.Models.Admin.UserListItemViewModel>
+@using Microsoft.Extensions.Localization
+@inject IStringLocalizer<GlowBook.Web.SharedResources> SR
 
 @{
-    ViewData["Title"] = "Gebruikersbeheer";
+    ViewData["Title"] = SR["Users_Title"].Value;
 }
 
 <div class="gb-card mt-3">
     <div class="d-flex justify-content-between align-items-center mb-2">
-        <div class="gb-card-title">Gebruikersbeheer</div>
+        <div class="gb-card-title">@SR["Users_Title"]</div>
     </div>
 
     <p class="text-muted mb-2">
-        Beheer rollen en toegang van gebruikers.
+        @SR["Users_Subtitle"]
     </p>
 
     <div class="gb-table-wrapper">
         <table class="table table-hover align-middle mb-0 gb-table">
             <thead>
                 <tr>
-                    <th>Email</th>
-                    <th>Naam</th>
-                    <th>Bevestigd</th>
-                    <th>Actief</th>
-                    <th>Rollen</th>
-                    <th style="width: 220px;">Acties</th>
+                    <th>@SR["Col_Email"]</th>
+                    <th>@SR["Col_Name"]</th>
+                    <th>@SR["Col_Confirmed"]</th>
+                    <th>@SR["Col_Active"]</th>
+                    <th>@SR["Col_Roles"]</th>
+                    <th style="width: 220px;">@SR["Col_Actions"]</th>
                 </tr>
             </thead>
             <tbody>
@@ -31,14 +33,14 @@
                     <tr>
                         <td>@u.Email</td>
                         <td>@u.DisplayName</td>
-                        <td>@(u.EmailConfirmed ? "Ja" : "Nee")</td>
-                        <td>@(u.IsActive ? "Ja" : "Nee")</td>
+                        <td>@(u.EmailConfirmed? SR["Common_Yes"].Value : SR["Common_No"].Value)</td>
+                        <td>@(u.IsActive? SR["Common_Yes"].Value : SR["Common_No"].Value)</td>
                         <td>@string.Join(", ", u.Roles)</td>
                         <td class="text-end">
                             <a class="btn btn-sm btn-outline-primary me-1"
                                asp-action="EditRoles"
                                asp-route-id="@u.Id">
-                                Rollen
+                                @SR["Users_Roles"]
                             </a>
 
                             <form asp-action="ToggleActive"
@@ -47,7 +49,7 @@
                                   class="d-inline">
                                 @Html.AntiForgeryToken()
                                 <button class="btn btn-sm btn-outline-danger" type="submit">
-                                    @(u.IsActive ? "Blokkeer" : "Deblokkeer")
+                                    @(u.IsActive? SR["Users_Block"].Value : SR["Users_Unblock"].Value)
                                 </button>
                             </form>
                         </td>

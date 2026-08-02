@@ -1,37 +1,35 @@
 ﻿@model GlowBook.Model.Entities.Service
+@using Microsoft.Extensions.Localization
+@inject IStringLocalizer<GlowBook.Web.SharedResources> SR
 
 @{
-    ViewData["Title"] = "Dienst verwijderen";
+    ViewData["Title"] = SR["Services_DeleteTitle"].Value;
 }
 
 <div class="gb-card mt-3">
-    <div class="gb-card-title text-danger">Dienst verwijderen</div>
+    <div class="gb-card-title text-danger">@SR["Services_DeleteTitle"]</div>
 
     <div class="alert alert-warning">
-        Ben je zeker dat je deze dienst definitief wil verwijderen?
+        @SR["Services_DeleteConfirm"]
     </div>
 
     <dl class="row">
-        <dt class="col-sm-3">Categorie</dt>
+        <dt class="col-sm-3">@SR["Col_Category"]</dt>
         <dd class="col-sm-9">@Model.Category</dd>
 
-        <dt class="col-sm-3">Naam</dt>
+        <dt class="col-sm-3">@SR["Col_Name"]</dt>
         <dd class="col-sm-9">@Model.Name</dd>
 
-        <dt class="col-sm-3">Duur (min)</dt>
+        <dt class="col-sm-3">@SR["Col_Duration"]</dt>
         <dd class="col-sm-9">@Model.DurationMinutes</dd>
 
-        <dt class="col-sm-3">Prijs (€)</dt>
+        <dt class="col-sm-3">@SR["Col_Price"]</dt>
         <dd class="col-sm-9">@Model.Price.ToString("0.00")</dd>
     </dl>
 
     <form asp-action="Delete" method="post">
         <input type="hidden" asp-for="Id" />
-        <a asp-action="Index" class="btn btn-outline-secondary">
-            Annuleren
-        </a>
-        <button type="submit" class="btn btn-danger ms-2">
-            Verwijderen
-        </button>
+        <a asp-action="Index" class="btn btn-outline-secondary">@SR["Common_Cancel"]</a>
+        <button type="submit" class="btn btn-danger ms-2">@SR["Action_Delete"]</button>
     </form>
 </div>

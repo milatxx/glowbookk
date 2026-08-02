@@ -5,6 +5,7 @@ namespace GlowBook.Mobile.Services;
 public class SettingsService
 {
     private const string ApiBaseUrlKey = "api_base_url";
+    private const string LastSyncKey = "last_sync_utc";
 
     public string ApiBaseUrl
     {
@@ -15,6 +16,17 @@ public class SettingsService
             if (!v.EndsWith("/")) v += "/";
             Preferences.Default.Set(ApiBaseUrlKey, v);
         }
+    }
+
+    // Tijdstip van laatste geslaagde synchronisatie (lokaal opgeslagen)
+    public DateTime? LastSyncUtc
+    {
+        get
+        {
+            var ticks = Preferences.Default.Get(LastSyncKey, 0L);
+            return ticks == 0L ? null : new DateTime(ticks, DateTimeKind.Utc);
+        }
+        set => Preferences.Default.Set(LastSyncKey, value?.ToUniversalTime().Ticks ?? 0L);
     }
 
     private static string GetDefaultApiBaseUrl()

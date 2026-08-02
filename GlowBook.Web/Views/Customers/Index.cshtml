@@ -1,51 +1,52 @@
 ﻿@model List<GlowBook.Model.Entities.Customer>
+@using Microsoft.Extensions.Localization
+@inject IStringLocalizer<GlowBook.Web.SharedResources> SR
 
 @{
-    ViewData["Title"] = "Klanten";
+    ViewData["Title"] = SR["Customers_Title"].Value;
     var q = ViewBag.Q as string;
     var sort = ViewBag.Sort as string ?? "name";
 }
 
 <div class="gb-card mt-3">
     <div class="d-flex justify-content-between align-items-center mb-2">
-        <div class="gb-card-title">Klanten</div>
+        <div class="gb-card-title">@SR["Customers_Title"]</div>
         @if (User.IsInRole("Admin"))
         {
-            <a asp-action="Create" class="btn-gb">Nieuwe klant</a>
+            <a asp-action="Create" class="btn-gb">@SR["Customers_New"]</a>
         }
     </div>
 
     <p class="text-muted mb-2">
-        Overzicht van alle actieve klanten.
+        @SR["Customers_Subtitle"]
     </p>
 
     <form method="get" class="row g-2 mb-3">
         <div class="col-md-6">
-            <input class="form-control" name="q" value="@q" placeholder="Zoek klant..." />
+            <input class="form-control" name="q" value="@q" placeholder="@SR["Customers_SearchPlaceholder"]" />
         </div>
 
         <div class="col-md-3">
             <select class="form-select" name="sort">
-                <option value="name" selected="@(sort == "name")">Naam A-Z</option>
-                <option value="name_desc" selected="@(sort == "name_desc")">Naam Z-A</option>
+                <option value="name" selected="@(sort == "name")">@SR["Sort_NameAsc"]</option>
+                <option value="name_desc" selected="@(sort == "name_desc")">@SR["Sort_NameDesc"]</option>
             </select>
         </div>
 
         <div class="col-md-3 text-end">
-            <button class="btn-gb" type="submit">Filter</button>
-            <a class="btn btn-outline-secondary ms-2" asp-action="Index">Reset</a>
+            <button class="btn-gb" type="submit">@SR["Action_Filter"]</button>
+            <a class="btn btn-outline-secondary ms-2" asp-action="Index">@SR["Action_Reset"]</a>
         </div>
-
     </form>
 
     <div class="gb-table-wrapper">
         <table class="table table-hover align-middle mb-0 gb-table">
             <thead>
                 <tr>
-                    <th>Naam</th>
-                    <th>Telefoon</th>
-                    <th>E-mail</th>
-                    <th style="width: 220px;">Acties</th>
+                    <th>@SR["Col_Name"]</th>
+                    <th>@SR["Col_Phone"]</th>
+                    <th>@SR["Col_Email"]</th>
+                    <th style="width: 220px;">@SR["Col_Actions"]</th>
                 </tr>
             </thead>
             <tbody>
@@ -57,15 +58,15 @@
                         <td>@c.Email</td>
                         <td>
                             <a asp-action="Details" asp-route-id="@c.Id" class="btn btn-sm btn-outline-secondary me-1">
-                                Details
+                                @SR["Action_Details"]
                             </a>
                             @if (User.IsInRole("Admin"))
                             {
                                 <a asp-action="Edit" asp-route-id="@c.Id" class="btn btn-sm btn-outline-primary me-1">
-                                    Bewerken
+                                    @SR["Action_Edit"]
                                 </a>
                                 <a asp-action="Delete" asp-route-id="@c.Id" class="btn btn-sm btn-outline-danger">
-                                    Verwijderen
+                                    @SR["Action_Delete"]
                                 </a>
                             }
                         </td>

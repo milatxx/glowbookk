@@ -1,12 +1,14 @@
 ﻿@model GlowBook.Web.Models.Admin.EditUserRolesViewModel
+@using Microsoft.Extensions.Localization
+@inject IStringLocalizer<GlowBook.Web.SharedResources> SR
 
 @{
-    ViewData["Title"] = "Rollen aanpassen";
+    ViewData["Title"] = SR["Users_EditRolesTitle"].Value;
 }
 
 <div class="gb-card mt-3">
     <div class="d-flex justify-content-between align-items-center mb-2">
-        <div class="gb-card-title">Rollen aanpassen</div>
+        <div class="gb-card-title">@SR["Users_EditRolesTitle"]</div>
     </div>
 
     <p class="text-muted mb-3">
@@ -28,7 +30,7 @@
             }
         </div>
 
-        <button class="btn-gb" type="submit">Opslaan</button>
-        <a class="btn btn-outline-secondary ms-2" asp-action="Users">Annuleren</a>
+        <button class="btn-gb" type="submit">@SR["Common_Save"]</button>
+        <a class="btn btn-outline-secondary ms-2" asp-action="Users">@SR["Common_Cancel"]</a>
     </form>
 </div>

@@ -13,22 +13,30 @@
         <Grid Padding="24">
 
             <Border Style="{StaticResource GbCard}">
-                <VerticalStackLayout Spacing="12">
 
-                    <Label Text="{Binding Title}" Style="{StaticResource GbCardTitle}" />
+                <!-- Grid met vaste rijen: laatste rij (*) krijgt de resterende
+                     hoogte, zodat CollectionView effectief plaats heeft -->
+                <Grid RowDefinitions="Auto,Auto,Auto,*" RowSpacing="12">
 
-                    <Label Text="Werkt offline: afspraken blijven zichtbaar + offline aanmaken wordt later gesynchroniseerd."
+                    <Label Grid.Row="0"
+                           Text="{Binding Title}"
+                           Style="{StaticResource GbCardTitle}" />
+
+                    <Label Grid.Row="1"
+                           Text="Werkt offline: afspraken blijven zichtbaar + offline aanmaken wordt later gesynchroniseerd."
                            FontSize="14"
                            TextColor="Gray" />
 
-                    <HorizontalStackLayout HorizontalOptions="End" Spacing="8">
+                    <HorizontalStackLayout Grid.Row="2" HorizontalOptions="End" Spacing="8">
                         <Button Text="Sync"
                                 Style="{StaticResource GbPrimaryButton}"
                                 Command="{Binding LoadCommand}" />
                     </HorizontalStackLayout>
 
-                    <RefreshView IsRefreshing="{Binding IsBusy}"
+                    <RefreshView Grid.Row="3"
+                                 IsRefreshing="{Binding IsBusy}"
                                  Command="{Binding LoadCommand}">
+
                         <CollectionView ItemsSource="{Binding Appointments}">
                             <CollectionView.EmptyView>
                                 <Label Text="Geen afspraken gevonden."
@@ -56,9 +64,10 @@
                                 </DataTemplate>
                             </CollectionView.ItemTemplate>
                         </CollectionView>
+
                     </RefreshView>
 
-                </VerticalStackLayout>
+                </Grid>
             </Border>
 
         </Grid>

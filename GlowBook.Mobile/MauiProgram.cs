@@ -1,4 +1,4 @@
-﻿using GlowBook.Mobile.Services; 
+﻿using GlowBook.Mobile.Services;
 using GlowBook.Mobile.ViewModels;
 using GlowBook.Mobile.Views;
 
@@ -39,12 +39,16 @@ public static class MauiProgram
         builder.Services.AddTransient<CustomersViewModel>();
         builder.Services.AddTransient<ServicesViewModel>();
         builder.Services.AddTransient<CreateAppointmentViewModel>();
+        builder.Services.AddTransient<ReportsViewModel>();
+        builder.Services.AddTransient<SettingsViewModel>();
 
         // Views
         builder.Services.AddTransient<AgendaPage>();
         builder.Services.AddTransient<CustomersPage>();
         builder.Services.AddTransient<ServicesPage>();
         builder.Services.AddTransient<CreateAppointmentPage>();
+        builder.Services.AddTransient<ReportsPage>();
+        builder.Services.AddTransient<SettingsPage>();
 
         // Login
         builder.Services.AddTransient<LoginViewModel>();

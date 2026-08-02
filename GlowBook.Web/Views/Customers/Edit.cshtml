@@ -1,47 +1,45 @@
 ﻿@model GlowBook.Web.Models.CustomerEditViewModel
+@using Microsoft.Extensions.Localization
+@inject IStringLocalizer<GlowBook.Web.SharedResources> SR
 
 @{
-    ViewData["Title"] = "Klant bewerken";
+    ViewData["Title"] = SR["Customers_EditTitle"].Value;
 }
 
 <div class="gb-card mt-3">
-    <div class="gb-card-title">Klant bewerken</div>
+    <div class="gb-card-title">@SR["Customers_EditTitle"]</div>
 
     <form asp-action="Edit" method="post">
         <input type="hidden" asp-for="Id" />
         <div asp-validation-summary="ModelOnly" class="text-danger"></div>
 
         <div class="mb-3">
-            <label asp-for="Name" class="form-label"></label>
+            <label asp-for="Name" class="form-label">@SR["Field_Name"]</label>
             <input asp-for="Name" class="form-control" />
             <span asp-validation-for="Name" class="text-danger"></span>
         </div>
 
         <div class="mb-3">
-            <label asp-for="Phone" class="form-label"></label>
+            <label asp-for="Phone" class="form-label">@SR["Field_Phone"]</label>
             <input asp-for="Phone" class="form-control" />
             <span asp-validation-for="Phone" class="text-danger"></span>
         </div>
 
         <div class="mb-3">
-            <label asp-for="Email" class="form-label"></label>
+            <label asp-for="Email" class="form-label">@SR["Field_Email"]</label>
             <input asp-for="Email" class="form-control" />
             <span asp-validation-for="Email" class="text-danger"></span>
         </div>
 
         <div class="mb-3">
-            <label asp-for="Notes" class="form-label"></label>
+            <label asp-for="Notes" class="form-label">@SR["Field_Notes"]</label>
             <textarea asp-for="Notes" class="form-control" rows="3"></textarea>
             <span asp-validation-for="Notes" class="text-danger"></span>
         </div>
 
         <div class="d-flex justify-content-between">
-            <a asp-action="Index" class="btn btn-outline-secondary">
-                Annuleren
-            </a>
-            <button type="submit" class="btn-gb">
-                Opslaan
-            </button>
+            <a asp-action="Index" class="btn btn-outline-secondary">@SR["Common_Cancel"]</a>
+            <button type="submit" class="btn-gb">@SR["Common_Save"]</button>
         </div>
     </form>
 </div>

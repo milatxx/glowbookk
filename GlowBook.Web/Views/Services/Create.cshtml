@@ -1,58 +1,55 @@
 ﻿@model GlowBook.Model.Entities.Service
+@using Microsoft.AspNetCore.Mvc.Rendering
+@using Microsoft.Extensions.Localization
+@inject IStringLocalizer<GlowBook.Web.SharedResources> SR
 
 @{
-    ViewData["Title"] = "Nieuwe dienst";
+    ViewData["Title"] = SR["Services_New"].Value;
 }
 
 <div class="gb-card mt-3">
-    <div class="gb-card-title">Nieuwe dienst / behandeling</div>
+    <div class="gb-card-title">@SR["Services_New"]</div>
 
     <form asp-action="Create" method="post">
         <div asp-validation-summary="ModelOnly" class="text-danger"></div>
 
         <div class="mb-3">
-            <label asp-for="Category" class="form-label"></label>
+            <label asp-for="Category" class="form-label">@SR["Field_Category"]</label>
             <select asp-for="Category"
                     class="form-select"
                     asp-items="@(ViewBag.Categories as SelectList)">
-                <option value="">-- Kies een categorie --</option>
+                <option value="">@SR["Services_ChooseCategory"]</option>
             </select>
             <span asp-validation-for="Category" class="text-danger"></span>
         </div>
 
-
         <div class="mb-3">
-            <label asp-for="Name" class="form-label"></label>
+            <label asp-for="Name" class="form-label">@SR["Field_Name"]</label>
             <input asp-for="Name" class="form-control" />
             <span asp-validation-for="Name" class="text-danger"></span>
         </div>
 
         <div class="mb-3">
-            <label asp-for="DurationMinutes" class="form-label"></label>
+            <label asp-for="DurationMinutes" class="form-label">@SR["Field_Duration"]</label>
             <input asp-for="DurationMinutes" class="form-control" />
             <span asp-validation-for="DurationMinutes" class="text-danger"></span>
         </div>
 
         <div class="mb-3">
-            <label asp-for="Price" class="form-label"></label>
+            <label asp-for="Price" class="form-label">@SR["Field_Price"]</label>
             <input asp-for="Price" class="form-control" />
             <span asp-validation-for="Price" class="text-danger"></span>
         </div>
 
         <div class="mb-3">
-            <label asp-for="Description" class="form-label"></label>
+            <label asp-for="Description" class="form-label">@SR["Field_Description"]</label>
             <textarea asp-for="Description" class="form-control" rows="3"></textarea>
             <span asp-validation-for="Description" class="text-danger"></span>
         </div>
 
-
         <div class="d-flex justify-content-between">
-            <a asp-action="Index" class="btn btn-outline-secondary">
-                Annuleren
-            </a>
-            <button type="submit" class="btn-gb">
-                Opslaan
-            </button>
+            <a asp-action="Index" class="btn btn-outline-secondary">@SR["Common_Cancel"]</a>
+            <button type="submit" class="btn-gb">@SR["Common_Save"]</button>
         </div>
     </form>
 </div>

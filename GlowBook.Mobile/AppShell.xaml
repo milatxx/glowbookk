@@ -22,6 +22,16 @@
             ContentTemplate="{DataTemplate views:ServicesPage}"
             Route="services" />
 
+        <ShellContent
+            Title="Rapporten"
+            ContentTemplate="{DataTemplate views:ReportsPage}"
+            Route="reports" />
+
+        <ShellContent
+            Title="Instellingen"
+            ContentTemplate="{DataTemplate views:SettingsPage}"
+            Route="settings" />
+
     </TabBar>
 
 </Shell>

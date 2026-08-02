@@ -9,23 +9,30 @@
         <Grid Padding="24">
 
             <Border Style="{StaticResource GbCard}">
-                <VerticalStackLayout Spacing="12">
 
-                    <Label Text="{Binding Title}"
+                <!-- Grid met vaste rijen: laatste rij (*) krijgt de resterende
+                     hoogte, zodat CollectionView effectief plaats heeft -->
+                <Grid RowDefinitions="Auto,Auto,Auto,*" RowSpacing="12">
+
+                    <Label Grid.Row="0"
+                           Text="{Binding Title}"
                            Style="{StaticResource GbCardTitle}" />
 
-                    <Label Text="Overzicht van diensten."
+                    <Label Grid.Row="1"
+                           Text="Overzicht van diensten."
                            FontSize="14"
                            TextColor="Gray" />
 
-                    <HorizontalStackLayout HorizontalOptions="End">
+                    <HorizontalStackLayout Grid.Row="2" HorizontalOptions="End">
                         <Button Text="Sync"
                                 Style="{StaticResource GbPrimaryButton}"
                                 Command="{Binding LoadCommand}" />
                     </HorizontalStackLayout>
 
-                    <RefreshView IsRefreshing="{Binding IsBusy}"
+                    <RefreshView Grid.Row="3"
+                                 IsRefreshing="{Binding IsBusy}"
                                  Command="{Binding LoadCommand}">
+
                         <CollectionView ItemsSource="{Binding Services}">
                             <CollectionView.EmptyView>
                                 <Label Text="Geen diensten gevonden."
@@ -59,9 +66,10 @@
                                 </DataTemplate>
                             </CollectionView.ItemTemplate>
                         </CollectionView>
+
                     </RefreshView>
 
-                </VerticalStackLayout>
+                </Grid>
             </Border>
 
         </Grid>

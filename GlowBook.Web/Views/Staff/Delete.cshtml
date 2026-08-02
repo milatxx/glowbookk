@@ -1,23 +1,25 @@
 ﻿@model GlowBook.Model.Entities.Staff
+@using Microsoft.Extensions.Localization
+@inject IStringLocalizer<GlowBook.Web.SharedResources> SR
 
 @{
-    ViewData["Title"] = "Medewerker verwijderen";
+    ViewData["Title"] = SR["Staff_DeleteTitle"].Value;
 }
 
 <div class="gb-card mt-3">
     <div class="d-flex justify-content-between align-items-center mb-2">
-        <div class="gb-card-title text-danger">Medewerker verwijderen</div>
+        <div class="gb-card-title text-danger">@SR["Staff_DeleteTitle"]</div>
     </div>
 
     <div class="alert alert-warning">
-        Zeker dat je <strong>@Model.Name</strong> wil verwijderen?
+        @SR["Staff_DeleteConfirm"]
     </div>
 
     <dl class="row">
-        <dt class="col-sm-2">Naam</dt>
+        <dt class="col-sm-2">@SR["Col_Name"]</dt>
         <dd class="col-sm-10">@Model.Name</dd>
 
-        <dt class="col-sm-2">Email</dt>
+        <dt class="col-sm-2">@SR["Col_Email"]</dt>
         <dd class="col-sm-10">@Model.Email</dd>
     </dl>
 
@@ -26,8 +28,8 @@
         <input type="hidden" asp-for="Id" />
 
         <div class="d-flex gap-2">
-            <button class="btn btn-danger" type="submit">Verwijderen</button>
-            <a class="btn btn-outline-secondary" asp-action="Index">Annuleren</a>
+            <button class="btn btn-danger" type="submit">@SR["Action_Delete"]</button>
+            <a class="btn btn-outline-secondary" asp-action="Index">@SR["Common_Cancel"]</a>
         </div>
     </form>
 </div>
